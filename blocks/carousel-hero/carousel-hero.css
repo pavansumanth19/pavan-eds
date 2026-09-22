@@ -20,34 +20,40 @@ main > .section > .carousel-hero-wrapper {
   justify-content: flex-end;
 }
 
-/* Source content card: a wide, solid-white bar near the bottom of the slide —
-   roughly full width with small side gutters (~83% wide, inset ~8% from left),
-   NOT the base carousel's half-width semi-transparent centered box. */
+/* Source content card: a wide, solid-white bar sitting flush with the BOTTOM
+   of the slide, overlapping the image (~83% wide, inset ~8.5% from left), with
+   compact vertical spacing — NOT the base carousel's half-width centered box. */
 .carousel-hero .carousel-slide .carousel-slide-content {
   --slide-content-width: 100%;
 
   box-sizing: border-box;
   width: 100%;
-  margin: 0 0 8%;
-  padding: 32px;
+  margin: 0;
+  padding: 24px 28px 32px;
   background-color: #fff;
   color: var(--text-color);
 }
 
 @media (width >= 600px) {
   .carousel-hero .carousel-slide .carousel-slide-content {
-    --slide-content-width: 84%;
+    --slide-content-width: 83%;
 
-    width: 84%;
+    width: 83%;
     max-width: none;
-    margin: 0 0 6% 8%;
-    padding: 32px 40px 40px;
+    margin: 0 0 0 8.5%;
+    padding: 8px 28px 28px;
   }
 }
 
 .carousel-hero .carousel-slide .carousel-slide-content h2 {
+  margin: 18px 0 0;
   font-family: var(--heading-font-family);
   font-weight: 400;
+  line-height: 1.5;
+}
+
+.carousel-hero .carousel-slide .carousel-slide-content p {
+  margin: 8px 0 0;
 }
 
 /* CTA link styled as the WKND yellow button */
