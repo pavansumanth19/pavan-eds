@@ -1,20 +1,92 @@
 footer {
-  background-color: var(--light-color);
+  background-color: var(--dark-color);
+  color: #ebebeb;
   font-size: var(--body-font-size-xs);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  max-width: var(--content-max-width);
+  padding: 32px 24px 40px;
+}
+
+/* Top row: logo · nav · follow-us + social, all on one line; copyright below */
+footer .footer .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 40px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
+/* Footer nav */
+footer .footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer ul a {
+  color: #ebebeb;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+footer .footer ul a:hover {
+  color: var(--accent-color);
+}
+
+/* WKND wordmark (first paragraph) */
+footer .footer .default-content-wrapper > p:first-child {
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+footer .footer .default-content-wrapper > p:first-child a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* "Follow Us" label + social links pushed to the right */
+footer .footer .default-content-wrapper > p:nth-child(3) {
+  margin-left: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Social links row */
+footer .footer .default-content-wrapper > p:nth-child(4) {
+  display: flex;
+  gap: 12px;
+}
+
+footer .footer .default-content-wrapper > p:nth-child(4) a {
+  color: #ebebeb;
+  text-decoration: none;
+}
+
+footer .footer .default-content-wrapper > p:nth-child(4) a:hover {
+  color: var(--accent-color);
+}
+
+/* Copyright: full width on its own line */
+footer .footer .default-content-wrapper > p:last-child {
+  flex: 0 0 100%;
+  margin-top: 16px;
+  color: #b5b5b5;
+}
+
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 40px 32px 24px;
+    padding: 32px 32px 40px;
   }
 }
