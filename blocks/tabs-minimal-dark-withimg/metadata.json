@@ -1,0 +1,19 @@
+{
+  "variantName": "tabs-minimal-dark-withimg",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": true,
+    "imagePattern": "large",
+    "structure": "category tab strip switching a grid of image cards"
+  },
+  "contentPattern": "One row per tab; first cell is the category label, the row body is a grid of image cards.",
+  "usage": "Category-filtered adventure grid on the adventure-listing page.",
+  "options": [],
+  "memberVariantIds": [
+    "v_8ab7ece34e9a-3"
+  ]
+}

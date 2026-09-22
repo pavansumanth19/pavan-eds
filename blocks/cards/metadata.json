@@ -1,0 +1,20 @@
+{
+  "variantName": "cards",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": true,
+    "imagePattern": "large",
+    "structure": "responsive grid of image + title + summary cards"
+  },
+  "contentPattern": "One row per card; first cell image, remaining cells title and summary text.",
+  "usage": "Article and adventure card grids on homepage and landing pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_ff3f792dc182",
+    "v_096172ab7f4e"
+  ]
+}

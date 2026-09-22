@@ -1,0 +1,21 @@
+/* cards-article — article/adventure teaser grid variant.
+   The base cards grid layout lives in cards.css. EDS only auto-loads the CSS
+   file named after this block, so we import the base layout explicitly; rules
+   below are variant-scoped overrides. */
+@import url('../cards/cards.css');
+
+
+.cards-article .cards-card-body h3 {
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  margin: 12px 0 8px;
+}
+
+.cards-article .cards-card-body h3 a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-article .cards-card-body h3 a:hover {
+  text-decoration: underline;
+}

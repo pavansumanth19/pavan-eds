@@ -1,0 +1,63 @@
+/* hero-banner — full-width banner with background image and overlaid content card. */
+
+.hero-banner {
+  position: relative;
+}
+
+.hero-banner .hero-banner-image {
+  line-height: 0;
+}
+
+.hero-banner .hero-banner-image img {
+  width: 100%;
+  height: auto;
+  max-height: 680px;
+  object-fit: cover;
+}
+
+.hero-banner .hero-banner-content {
+  background-color: rgb(255 255 255 / 90%);
+  padding: 24px;
+}
+
+.hero-banner .hero-banner-content h2 {
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  margin-top: 0;
+}
+
+/* CTA link styled as the WKND yellow button */
+.hero-banner .hero-banner-content a:any-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hero-banner .hero-banner-content a:hover {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+
+@media (width >= 900px) {
+  .hero-banner {
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-banner .hero-banner-image {
+    flex: 1;
+  }
+
+  .hero-banner .hero-banner-content {
+    position: absolute;
+    right: 8%;
+    max-width: 420px;
+  }
+}
