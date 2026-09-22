@@ -20,27 +20,28 @@ main > .section > .carousel-hero-wrapper {
   justify-content: flex-end;
 }
 
-/* Source content card: a wide, solid-white bar near the bottom of the slide
-   (roughly full width with small side gutters), not the base carousel's
-   half-width semi-transparent centered box. */
+/* Source content card: a wide, solid-white bar near the bottom of the slide —
+   roughly full width with small side gutters (~83% wide, inset ~8% from left),
+   NOT the base carousel's half-width semi-transparent centered box. */
 .carousel-hero .carousel-slide .carousel-slide-content {
   --slide-content-width: 100%;
 
   box-sizing: border-box;
   width: 100%;
   margin: 0 0 8%;
-  padding: 40px;
+  padding: 32px;
   background-color: #fff;
   color: var(--text-color);
 }
 
 @media (width >= 600px) {
   .carousel-hero .carousel-slide .carousel-slide-content {
-    --slide-content-width: auto;
+    --slide-content-width: 84%;
 
-    max-width: 620px;
+    width: 84%;
+    max-width: none;
     margin: 0 0 6% 8%;
-    padding: 48px;
+    padding: 32px 40px 40px;
   }
 }
 
