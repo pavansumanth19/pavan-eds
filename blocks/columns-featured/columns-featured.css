@@ -41,6 +41,10 @@
   .columns-featured > div > div:not(.columns-img-col) {
     order: 1;
     flex: 0 0 38%;
+
+    /* include the padding within the 38% basis so text + image cols never
+       exceed 100% and force a horizontal scrollbar at narrow desktop widths */
+    box-sizing: border-box;
     padding: 63px 36px 36px;
   }
 }
