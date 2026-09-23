@@ -31,6 +31,10 @@ footer .footer .default-content-wrapper > p:first-child {
 footer .footer .default-content-wrapper > p:first-child img {
   width: 128px;
   height: auto;
+
+  /* The WKND logo asset is dark; the source footer shows a white logo on the
+     dark background, so invert it to white. */
+  filter: brightness(0) invert(1);
 }
 
 /* Link styling for the descriptive/legal paragraphs. These live in a separate
