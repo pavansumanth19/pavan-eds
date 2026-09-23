@@ -10,7 +10,8 @@
 }
 
 .columns-featured > div {
-  align-items: center;
+  /* Source top-aligns the text next to the image (not vertically centered). */
+  align-items: start;
   gap: 0;
 }
 
