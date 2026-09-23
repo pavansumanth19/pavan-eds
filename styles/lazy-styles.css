@@ -303,37 +303,52 @@ body.magazine-article .magazine-author h2 + p {
   color: #696969;
 }
 
-/* Social links: hide the text label and show the matching SVG icon as a mask
-   (tinted gray), the same treatment as the contributor cards. */
-body.magazine-article .magazine-author p a:any-link {
+/* Social links import as one <p> per link (stacked). Lay the social paragraphs
+   out in a horizontal row so the buttons sit side by side, matching the source. */
+body.magazine-article .magazine-author p:has(a[class*='social-']) {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 16px;
+  margin: 0 8px 0 0;
+}
+
+/* Each social link is a 48x48 dark square button; the platform icon shows as a
+   light-tinted mask centered inside (source: #202020 button, #ebebeb glyph). */
+body.magazine-article .magazine-author p a[class*='social-'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   overflow: hidden;
   color: transparent;
   font-size: 0;
   text-decoration: none;
   vertical-align: middle;
-  background-color: #6f6f6f;
+  background-color: var(--text-color);
   transition: background-color 0.2s;
+}
+
+body.magazine-article .magazine-author p a[class*='social-']::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: var(--light-color);
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
 }
 
-body.magazine-article .magazine-author p a:hover {
-  background-color: var(--text-color);
+body.magazine-article .magazine-author p a[class*='social-']:hover {
+  background-color: #000;
 }
 
-body.magazine-article .magazine-author p a.social-facebook {
+body.magazine-article .magazine-author p a.social-facebook::before {
   mask-image: url('/icons/facebook.svg');
 }
 
-body.magazine-article .magazine-author p a.social-twitter {
+body.magazine-article .magazine-author p a.social-twitter::before {
   mask-image: url('/icons/twitter.svg');
 }
 
-body.magazine-article .magazine-author p a.social-instagram {
+body.magazine-article .magazine-author p a.social-instagram::before {
   mask-image: url('/icons/instagram.svg');
 }
