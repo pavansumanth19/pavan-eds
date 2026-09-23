@@ -390,10 +390,10 @@ body.adventures-listing main .section:has(+ .section.tabs-minimal-dark-withimg-c
   background-color: var(--accent-color);
 }
 
-/* Card titles in the tabs block are blue regular-weight links in the source,
-   not bold black. Scope to the adventures listing so other uses are unaffected. */
+/* Card titles in the tabs block render as regular-weight black links. Scope to
+   the adventures listing so other uses are unaffected. */
 /* stylelint-disable-next-line no-descending-specificity */
 body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
-  color: var(--link-color);
+  color: var(--text-color);
   font-weight: 400;
 }
