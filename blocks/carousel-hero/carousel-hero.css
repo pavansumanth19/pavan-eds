@@ -37,14 +37,16 @@ main > .section > .carousel-hero-wrapper {
 
 @media (width >= 600px) {
   .carousel-hero .carousel-slide .carousel-slide-content {
-    --slide-content-width: 83%;
+    /* Source card is a fixed-width bar (~1192px) centered in the slide, not a
+       proportional width — so the side gutters shrink as the viewport narrows
+       (8% at 1440, ~2% at 1240) while the card width stays constant. */
+    --slide-content-width: min(100% - 48px, 1192px);
 
-    width: 83%;
+    width: min(100% - 48px, 1192px);
     max-width: none;
-    margin: 0 0 0 8.5%;
+    margin: 0 auto;
 
-    /* Match the source card: side gutters only, tight vertical rhythm from
-       element margins (card ends up ~189px tall). */
+    /* Side gutters only; tight vertical rhythm from element margins. */
     padding: 0 28px 28px;
   }
 }
