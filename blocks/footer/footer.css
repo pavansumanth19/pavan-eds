@@ -78,19 +78,40 @@ footer .footer .default-content-wrapper > p:nth-child(3) {
   font-weight: 600;
 }
 
-/* Social links row */
+/* Social links row: 48px light-gray icon buttons with dark glyphs, touching,
+   matching the source. */
 footer .footer .default-content-wrapper > p:nth-child(4) {
   display: flex;
-  gap: 16px;
+  gap: 0;
 }
 
 footer .footer .default-content-wrapper > p:nth-child(4) a {
-  color: #ebebeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: #ebebeb;
+  color: var(--text-color);
   text-decoration: none;
+  transition: background-color 0.2s;
 }
 
 footer .footer .default-content-wrapper > p:nth-child(4) a:hover {
-  color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+footer .footer .default-content-wrapper > p:nth-child(4) a .icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+}
+
+footer .footer .default-content-wrapper > p:nth-child(4) a .icon svg,
+footer .footer .default-content-wrapper > p:nth-child(4) a .icon img {
+  width: 20px;
+  height: 20px;
 }
 
 /* Copyright */
