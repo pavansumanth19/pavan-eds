@@ -34,6 +34,12 @@ indices:
         select: head > meta[name="template"]
         value: |
           attribute(el, 'content')
+      activity:
+        # Adventure activity (Surfing, Climbing, Cycling, Skiing, Social/Travel)
+        # used by the adventures listing's category tabs to filter client-side.
+        select: head > meta[name="activity"]
+        value: |
+          attribute(el, 'content')
       lastModified:
         # Automatic publish timestamp from the HTTP header. Guarantees a brand-new
         # article sorts to the top of "recent" rails even before an authored

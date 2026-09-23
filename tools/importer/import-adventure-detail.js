@@ -10,6 +10,7 @@ import tabsParser from './parsers/tabs.js';
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
 import sectionsTransformer from './transformers/wknd-sections.js';
+import adventureMetaTransformer from './transformers/wknd-adventure-meta.js';
 
 // PARSER REGISTRY
 const parsers = {
@@ -111,6 +112,9 @@ export default {
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);
+    // Append the adventure's Activity to the Metadata block so it lands in the
+    // query index and drives the dynamic listing's category tabs.
+    adventureMetaTransformer('adventureMeta', main, { ...payload, template: PAGE_TEMPLATE });
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

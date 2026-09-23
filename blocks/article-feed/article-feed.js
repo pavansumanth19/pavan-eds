@@ -61,13 +61,25 @@ function byNewest(a, b) {
   return db - da;
 }
 
+/** Human-readable title, with a fallback derived from the path slug when the
+ *  index title is missing or a known placeholder (e.g. "og title"). */
+function titleFor(item) {
+  const t = (item.title || '').trim();
+  if (t && t.toLowerCase() !== 'og title') return t;
+  const slug = item.path.replace(/\/$/, '').split('/').pop() || '';
+  return slug
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 function buildCard(item) {
   const li = document.createElement('li');
+  const title = titleFor(item);
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'cards-card-image';
   if (item.image && !item.image.startsWith('/default-meta-image')) {
-    const picture = createOptimizedPicture(item.image, item.title, false, [{ width: '750' }]);
+    const picture = createOptimizedPicture(item.image, title, false, [{ width: '750' }]);
     imageDiv.append(picture);
   }
 
@@ -76,7 +88,7 @@ function buildCard(item) {
   const h3 = document.createElement('h3');
   const a = document.createElement('a');
   a.href = item.path;
-  a.textContent = item.title;
+  a.textContent = title;
   h3.append(a);
   body.append(h3);
   if (item.description) {

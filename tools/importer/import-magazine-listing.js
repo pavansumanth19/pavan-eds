@@ -4,7 +4,7 @@
 // PARSER IMPORTS — reuse the homepage block parsers; the magazine listing uses
 // the same AEM components (featured teaser, image-list grid, teasers).
 import columnsFeaturedParser from './parsers/columns-featured.js';
-import cardsArticleParser from './parsers/cards-article.js';
+import articleFeedParser from './parsers/article-feed.js';
 import heroBannerParser from './parsers/hero-banner.js';
 
 // TRANSFORMER IMPORTS
@@ -14,7 +14,7 @@ import sectionsTransformer from './transformers/wknd-sections.js';
 // PARSER REGISTRY
 const parsers = {
   'columns-featured': columnsFeaturedParser,
-  'cards-article': cardsArticleParser,
+  'article-feed': articleFeedParser,
   'hero-banner': heroBannerParser,
 };
 
@@ -27,12 +27,12 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     { name: 'columns-featured', instances: ['.teaser.cmp-teaser--featured'] },
-    { name: 'cards-article', instances: ['.image-list.list'] },
+    { name: 'article-feed', instances: ['.image-list.list'] },
     { name: 'hero-banner', instances: ['.teaser.cmp-teaser--list'] },
   ],
   sections: [
     { id: 's1', name: 'featured-article', selector: ['.teaser.cmp-teaser--featured'], style: null, blocks: ['columns-featured'], defaultContent: ['h1'] },
-    { id: 's2', name: 'all-articles', selector: ['.image-list.list'], style: null, blocks: ['cards-article'], defaultContent: [] },
+    { id: 's2', name: 'all-articles', selector: ['.image-list.list'], style: null, blocks: ['article-feed'], defaultContent: [] },
     { id: 's3', name: 'members-only', selector: ['.teaser.cmp-teaser--list'], style: null, blocks: ['hero-banner'], defaultContent: [] },
   ],
 };

@@ -216,6 +216,30 @@ var CustomImportScript = (() => {
     }
   }
 
+  // tools/importer/transformers/wknd-adventure-meta.js
+  function transform3(hookName, element, payload) {
+    if (hookName !== "adventureMeta") return;
+    const { document: document2 } = payload;
+    let activity = "";
+    [...element.querySelectorAll("div, td")].forEach((cell) => {
+      if (!activity && /^activity$/i.test(cell.textContent.trim())) {
+        const value = cell.nextElementSibling;
+        if (value) activity = value.textContent.trim();
+      }
+    });
+    if (!activity) return;
+    const table = [...element.querySelectorAll("table")].find((t) => t.rows && t.rows[0] && t.rows[0].cells[0] && t.rows[0].cells[0].textContent.trim().toLowerCase() === "metadata");
+    if (!table) return;
+    const tbody = table.tBodies[0] || table;
+    const tr = document2.createElement("tr");
+    const k = document2.createElement("td");
+    k.textContent = "activity";
+    const v = document2.createElement("td");
+    v.textContent = activity;
+    tr.append(k, v);
+    tbody.append(tr);
+  }
+
   // tools/importer/import-adventure-detail.js
   var parsers = {
     breadcrumbs: parse,
@@ -306,6 +330,7 @@ var CustomImportScript = (() => {
       const hr = document2.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document2);
+      transform3("adventureMeta", main, __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE }));
       WebImporter.rules.transformBackgroundImages(main, document2);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const rawPath = new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html?$/, "");

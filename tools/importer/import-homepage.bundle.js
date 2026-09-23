@@ -93,37 +93,47 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/cards-article.js
-  function parse3(element, { document: document2 }) {
-    const items = Array.from(element.querySelectorAll(".cmp-image-list__item"));
-    const cells = [];
-    items.forEach((item) => {
-      const image = item.querySelector(".cmp-image-list__item-image img, .cmp-image img, img");
-      const titleLink = item.querySelector(".cmp-image-list__item-title-link");
-      const titleText = item.querySelector(".cmp-image-list__item-title");
-      const description = item.querySelector(".cmp-image-list__item-description");
-      const contentCell = [];
-      if (titleLink && titleText) {
-        const heading = document2.createElement("h3");
-        const link = document2.createElement("a");
-        link.href = titleLink.getAttribute("href") || "";
-        link.textContent = titleText.textContent.trim();
-        heading.append(link);
-        contentCell.push(heading);
-      } else if (titleText) {
-        const heading = document2.createElement("h3");
-        heading.textContent = titleText.textContent.trim();
-        contentCell.push(heading);
+  // tools/importer/parsers/article-feed.js
+  function sectionFromHeading(element) {
+    let node = element;
+    while (node) {
+      let sib = node.previousElementSibling;
+      while (sib) {
+        const heading = sib.matches && sib.matches("h1,h2,h3") ? sib : sib.querySelector && sib.querySelector("h1,h2,h3");
+        if (heading) {
+          const t = heading.textContent.toLowerCase();
+          if (t.includes("adventure") || t.includes("trip") || t.includes("where to go")) return "adventures";
+          if (t.includes("article") || t.includes("magazine") || t.includes("stor")) return "magazine";
+        }
+        sib = sib.previousElementSibling;
       }
-      if (description) contentCell.push(description);
-      if (!image && contentCell.length === 0) return;
-      cells.push([image || "", contentCell]);
-    });
-    if (cells.length === 0) {
-      element.replaceWith(...element.childNodes);
-      return;
+      node = node.parentElement;
     }
-    const block = WebImporter.Blocks.createBlock(document2, { name: "cards-article", cells });
+    return null;
+  }
+  function parse3(element, { document: document2, params }) {
+    const url = params && params.originalURL || "";
+    const pathname = (() => {
+      try {
+        return new URL(url).pathname;
+      } catch (e) {
+        return "";
+      }
+    })();
+    let section = sectionFromHeading(element);
+    if (!section) {
+      section = /\/adventures(\.html)?$/.test(pathname) ? "adventures" : "magazine";
+    }
+    const localeMatch = pathname.match(/^(\/[^/]+\/[^/]+)\//);
+    const locale = localeMatch ? localeMatch[1] : "";
+    const rows = [["filter", section]];
+    if (locale) rows.push(["locale", locale]);
+    const isListing = /\/(magazine|adventures)(\.html)?$/.test(pathname);
+    if (!isListing) rows.push(["limit", "3"]);
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: "article-feed",
+      cells: rows
+    });
     element.replaceWith(block);
   }
 
@@ -171,6 +181,8 @@ var CustomImportScript = (() => {
         // global header XF (logo, nav, search, language nav, sign-in)
         "footer.cmp-experiencefragment--footer",
         // global footer XF (logo, nav, social, copyright)
+        ".cmp-contentfragment__title",
+        // hidden CF title that duplicates the page H1 (magazine articles)
         "meta",
         // stray empty <meta> tags left inside cmp-image wrappers
         "noscript",
@@ -233,7 +245,7 @@ var CustomImportScript = (() => {
   var parsers = {
     "carousel-hero": parse,
     "columns-featured": parse2,
-    "cards-article": parse3,
+    "article-feed": parse3,
     "hero-banner": parse4
   };
   var PAGE_TEMPLATE = {
@@ -245,15 +257,15 @@ var CustomImportScript = (() => {
     blocks: [
       { name: "carousel-hero", instances: [".carousel.cmp-carousel--hero"] },
       { name: "columns-featured", instances: [".teaser.cmp-teaser--featured"] },
-      { name: "cards-article", instances: [".image-list.list"] },
+      { name: "article-feed", instances: [".image-list.list"] },
       { name: "hero-banner", instances: [".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"] }
     ],
     sections: [
       { id: "s1", name: "hero-carousel", selector: [".carousel.cmp-carousel--hero"], style: null, blocks: ["carousel-hero"], defaultContent: [] },
       { id: "s2", name: "featured-article", selector: [".teaser.cmp-teaser--featured"], style: null, blocks: ["columns-featured"], defaultContent: [] },
-      { id: "s3", name: "recent-articles", selector: ["main.cmp-layout-container--fixed:nth-of-type(1) > .cmp-container", ".image-list.list"], style: null, blocks: ["cards-article"], defaultContent: [] },
+      { id: "s3", name: "recent-articles", selector: ["main.cmp-layout-container--fixed:nth-of-type(1) > .cmp-container", ".image-list.list"], style: null, blocks: ["article-feed"], defaultContent: [] },
       { id: "s4", name: "next-adventures", selector: [".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"], style: null, blocks: ["hero-banner"], defaultContent: [] },
-      { id: "s5", name: "where-to-go", selector: ["main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container", ".image-list.list"], style: null, blocks: ["cards-article"], defaultContent: [] }
+      { id: "s5", name: "where-to-go", selector: ["main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container", ".image-list.list"], style: null, blocks: ["article-feed"], defaultContent: [] }
     ]
   };
   var transformers = [

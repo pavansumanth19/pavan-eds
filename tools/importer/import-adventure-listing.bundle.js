@@ -64,39 +64,12 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/tabs-minimal-dark-withimg.js
+  // tools/importer/parsers/adventure-tabs.js
   function parse2(element, { document: document2 }) {
-    const tabs = Array.from(element.querySelectorAll('.cmp-tabs__tab, [class*="tabs__tab"]:not([class*="tablist"]):not([class*="tabpanel"])'));
-    const panels = Array.from(element.querySelectorAll('.cmp-tabs__tabpanel, [class*="tabpanel"]'));
-    if (!tabs.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const itemIdOf = (el, suffix) => {
-      const id = el && el.id ? el.id : "";
-      const m = id.match(new RegExp(`item-([^-]+)-${suffix}$`));
-      return m ? m[1] : null;
-    };
-    const panelByItemId = /* @__PURE__ */ new Map();
-    panels.forEach((panel) => {
-      const key = itemIdOf(panel, "tabpanel");
-      if (key) panelByItemId.set(key, panel);
+    const block = WebImporter.Blocks.createBlock(document2, {
+      name: "adventure-tabs",
+      cells: [[""]]
     });
-    const cells = [];
-    tabs.forEach((tab, i) => {
-      const label = document2.createElement("span");
-      label.innerHTML = tab.innerHTML || tab.textContent || "";
-      const key = itemIdOf(tab, "tab");
-      let panel = key ? panelByItemId.get(key) : null;
-      if (!panel && panels.length === tabs.length) panel = panels[i];
-      let content = "";
-      if (panel) {
-        const body = panel.querySelector(".image-list, .cmp-image-list, ul");
-        content = body || Array.from(panel.childNodes);
-      }
-      cells.push([label, content]);
-    });
-    const block = WebImporter.Blocks.createBlock(document2, { name: "tabs-minimal-dark-withimg", cells });
     element.replaceWith(block);
   }
 
@@ -121,6 +94,8 @@ var CustomImportScript = (() => {
         // global header XF (logo, nav, search, language nav, sign-in)
         "footer.cmp-experiencefragment--footer",
         // global footer XF (logo, nav, social, copyright)
+        ".cmp-contentfragment__title",
+        // hidden CF title that duplicates the page H1 (magazine articles)
         "meta",
         // stray empty <meta> tags left inside cmp-image wrappers
         "noscript",
@@ -182,7 +157,7 @@ var CustomImportScript = (() => {
   // tools/importer/import-adventure-listing.js
   var parsers = {
     "hero-banner": parse,
-    "tabs-minimal-dark-withimg": parse2
+    "adventure-tabs": parse2
   };
   var PAGE_TEMPLATE = {
     name: "adventure-listing",
@@ -192,13 +167,13 @@ var CustomImportScript = (() => {
     ],
     blocks: [
       { name: "hero-banner", instances: [".teaser.cmp-teaser--hero"] },
-      { name: "tabs-minimal-dark-withimg", instances: [".tabs.panelcontainer"] }
+      { name: "adventure-tabs", instances: [".tabs.panelcontainer"] }
     ],
     sections: [
       { id: "s1", name: "page-title", selector: ["main.cmp-layout-container--fixed > .cmp-container"], style: null, blocks: [], defaultContent: [".cmp-title__text"] },
       { id: "s2", name: "hero", selector: [".teaser.cmp-teaser--hero"], style: null, blocks: ["hero-banner"], defaultContent: [] },
       { id: "s3", name: "current-adventures-heading", selector: ["main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container"], style: null, blocks: [], defaultContent: [".cmp-title__text"] },
-      { id: "s4", name: "category-grid", selector: [".tabs.panelcontainer"], style: null, blocks: ["tabs-minimal-dark-withimg"], defaultContent: [] },
+      { id: "s4", name: "category-grid", selector: [".tabs.panelcontainer"], style: null, blocks: ["adventure-tabs"], defaultContent: [] },
       { id: "s5", name: "separator", selector: ["main.cmp-layout-container--fixed:last-of-type > .cmp-container"], style: null, blocks: [], defaultContent: ["hr", ".separator"] }
     ]
   };

@@ -3,7 +3,7 @@
 
 // PARSER IMPORTS
 import heroBannerParser from './parsers/hero-banner.js';
-import tabsMinimalDarkWithimgParser from './parsers/tabs-minimal-dark-withimg.js';
+import adventureTabsParser from './parsers/adventure-tabs.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
@@ -12,7 +12,7 @@ import sectionsTransformer from './transformers/wknd-sections.js';
 // PARSER REGISTRY
 const parsers = {
   'hero-banner': heroBannerParser,
-  'tabs-minimal-dark-withimg': tabsMinimalDarkWithimgParser,
+  'adventure-tabs': adventureTabsParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION - embedded from page-templates.json
@@ -24,13 +24,13 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     { name: 'hero-banner', instances: ['.teaser.cmp-teaser--hero'] },
-    { name: 'tabs-minimal-dark-withimg', instances: ['.tabs.panelcontainer'] },
+    { name: 'adventure-tabs', instances: ['.tabs.panelcontainer'] },
   ],
   sections: [
     { id: 's1', name: 'page-title', selector: ['main.cmp-layout-container--fixed > .cmp-container'], style: null, blocks: [], defaultContent: ['.cmp-title__text'] },
     { id: 's2', name: 'hero', selector: ['.teaser.cmp-teaser--hero'], style: null, blocks: ['hero-banner'], defaultContent: [] },
     { id: 's3', name: 'current-adventures-heading', selector: ['main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container'], style: null, blocks: [], defaultContent: ['.cmp-title__text'] },
-    { id: 's4', name: 'category-grid', selector: ['.tabs.panelcontainer'], style: null, blocks: ['tabs-minimal-dark-withimg'], defaultContent: [] },
+    { id: 's4', name: 'category-grid', selector: ['.tabs.panelcontainer'], style: null, blocks: ['adventure-tabs'], defaultContent: [] },
     { id: 's5', name: 'separator', selector: ['main.cmp-layout-container--fixed:last-of-type > .cmp-container'], style: null, blocks: [], defaultContent: ['hr', '.separator'] },
   ],
 };

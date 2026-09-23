@@ -4,7 +4,7 @@
 // PARSER IMPORTS
 import carouselHeroParser from './parsers/carousel-hero.js';
 import columnsFeaturedParser from './parsers/columns-featured.js';
-import cardsArticleParser from './parsers/cards-article.js';
+import articleFeedParser from './parsers/article-feed.js';
 import heroBannerParser from './parsers/hero-banner.js';
 
 // TRANSFORMER IMPORTS
@@ -15,7 +15,7 @@ import sectionsTransformer from './transformers/wknd-sections.js';
 const parsers = {
   'carousel-hero': carouselHeroParser,
   'columns-featured': columnsFeaturedParser,
-  'cards-article': cardsArticleParser,
+  'article-feed': articleFeedParser,
   'hero-banner': heroBannerParser,
 };
 
@@ -29,15 +29,15 @@ const PAGE_TEMPLATE = {
   blocks: [
     { name: 'carousel-hero', instances: ['.carousel.cmp-carousel--hero'] },
     { name: 'columns-featured', instances: ['.teaser.cmp-teaser--featured'] },
-    { name: 'cards-article', instances: ['.image-list.list'] },
+    { name: 'article-feed', instances: ['.image-list.list'] },
     { name: 'hero-banner', instances: ['.teaser.cmp-teaser--hero.cmp-teaser--imagebottom'] },
   ],
   sections: [
     { id: 's1', name: 'hero-carousel', selector: ['.carousel.cmp-carousel--hero'], style: null, blocks: ['carousel-hero'], defaultContent: [] },
     { id: 's2', name: 'featured-article', selector: ['.teaser.cmp-teaser--featured'], style: null, blocks: ['columns-featured'], defaultContent: [] },
-    { id: 's3', name: 'recent-articles', selector: ['main.cmp-layout-container--fixed:nth-of-type(1) > .cmp-container', '.image-list.list'], style: null, blocks: ['cards-article'], defaultContent: [] },
+    { id: 's3', name: 'recent-articles', selector: ['main.cmp-layout-container--fixed:nth-of-type(1) > .cmp-container', '.image-list.list'], style: null, blocks: ['article-feed'], defaultContent: [] },
     { id: 's4', name: 'next-adventures', selector: ['.teaser.cmp-teaser--hero.cmp-teaser--imagebottom'], style: null, blocks: ['hero-banner'], defaultContent: [] },
-    { id: 's5', name: 'where-to-go', selector: ['main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container', '.image-list.list'], style: null, blocks: ['cards-article'], defaultContent: [] },
+    { id: 's5', name: 'where-to-go', selector: ['main.cmp-layout-container--fixed:nth-of-type(2) > .cmp-container', '.image-list.list'], style: null, blocks: ['article-feed'], defaultContent: [] },
   ],
 };
 
