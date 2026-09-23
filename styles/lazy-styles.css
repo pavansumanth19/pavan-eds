@@ -1,5 +1,75 @@
 /* add global styles that can be loaded post LCP here */
 
+/* ===== Magazine listing page ===== */
+
+/* Section titles ("All Articles", "Members Only") get the short yellow
+   underline like the source. These headings live in default-content wrappers,
+   not a cards-article-container section, so scope them by the body class. */
+body.magazine-listing main .default-content-wrapper h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.magazine-listing main .default-content-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* The "Members Only" teasers use the hero-banner block, but on this page the
+   source renders them as two contained side-by-side teasers (image + text
+   below) — NOT full-bleed overlay heroes. Contain the section and lay the
+   teasers out 2-up. */
+body.magazine-listing main .section.hero-banner-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Undo the full-bleed break-out that hero-banner.css applies to the wrapper. */
+body.magazine-listing main .section.hero-banner-container > .hero-banner-wrapper {
+  max-width: calc(50% - 12px);
+  flex: 1 1 calc(50% - 12px);
+  padding: 0;
+}
+
+body.magazine-listing .hero-banner {
+  display: block;
+  min-height: 0;
+}
+
+body.magazine-listing .hero-banner .hero-banner-image img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: cover;
+}
+
+/* Text sits below the image (not overlaid) with no white card background. */
+body.magazine-listing .hero-banner .hero-banner-content {
+  position: static;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 12px 0 0;
+  background-color: transparent;
+}
+
+@media (width < 600px) {
+  body.magazine-listing .hero-banner-wrapper {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
 /* Magazine article template: the "By {author}" byline (h4) uses the body font,
    small, bold and uppercased in the source — not the default Asar heading. */
 body.magazine-article main .default-content-wrapper h4 {

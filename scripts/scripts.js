@@ -222,6 +222,12 @@ async function loadEager(doc) {
   if (window.location.pathname.includes('/magazine/')) {
     document.body.classList.add('magazine-article');
   }
+  // Tag the magazine landing/listing page (…/magazine, no trailing segment) so
+  // its section layout (All Articles underline, contained members teasers) can
+  // be scoped in CSS.
+  if (/\/magazine$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('magazine-listing');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
