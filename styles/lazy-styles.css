@@ -408,6 +408,21 @@ body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
     grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
     column-gap: 48px;
     align-items: start;
+
+    /* Constrain the grid to the content width and centre it, so its columns
+       share the same left edge as the full-width sections (title, breadcrumb).
+       Each section wrapper below has its own cap/padding neutralised so the
+       columns line up flush with the title instead of drifting left. */
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  body.adventure-detail main > .section > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
   }
 
   body.adventure-detail main > .section.breadcrumbs-container,
