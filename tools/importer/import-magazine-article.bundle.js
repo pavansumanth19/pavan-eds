@@ -122,6 +122,8 @@ var CustomImportScript = (() => {
         // global header XF (logo, nav, search, language nav, sign-in)
         "footer.cmp-experiencefragment--footer",
         // global footer XF (logo, nav, social, copyright)
+        ".cmp-contentfragment__title",
+        // hidden CF title that duplicates the page H1 (magazine articles)
         "meta",
         // stray empty <meta> tags left inside cmp-image wrappers
         "noscript",

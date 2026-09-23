@@ -6,21 +6,23 @@
  * separators between items.
  */
 export default async function decorate(block) {
-  // Collect the authored anchors in document order.
-  const anchors = [...block.querySelectorAll('a')];
-
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'Breadcrumb');
 
   const list = document.createElement('ol');
   list.className = 'breadcrumbs-list';
 
-  const crumbs = anchors.length
-    ? anchors.map((a) => ({ label: a.textContent.trim(), href: a.getAttribute('href') }))
-    // Fallback: plain text cells become non-link crumbs.
-    : [...block.querySelectorAll(':scope > div')]
-      .map((row) => ({ label: row.textContent.trim(), href: null }))
-      .filter((c) => c.label);
+  // Each row is one crumb, in document order. A row may hold a link (ancestor
+  // pages) or plain text (the current page). Collecting rows — rather than only
+  // anchors — keeps the non-link current-page crumb (e.g. "Bali Surf Camp").
+  const crumbs = [...block.querySelectorAll(':scope > div')]
+    .map((row) => {
+      const a = row.querySelector('a');
+      return a
+        ? { label: a.textContent.trim(), href: a.getAttribute('href') }
+        : { label: row.textContent.trim(), href: null };
+    })
+    .filter((c) => c.label);
 
   crumbs.forEach((crumb, idx) => {
     const item = document.createElement('li');
