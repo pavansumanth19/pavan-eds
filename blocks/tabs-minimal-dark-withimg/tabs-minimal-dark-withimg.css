@@ -8,12 +8,6 @@
   overflow-x: auto;
 }
 
-@media (width >= 900px) {
-  .tabs-minimal-dark-withimg .tabs-minimal-dark-withimg-list {
-    font-size: var(--body-font-size-s);
-  }
-}
-
 .tabs-minimal-dark-withimg .tabs-minimal-dark-withimg-list button {
   flex: 0 0 max-content;
   margin: 0;
@@ -22,12 +16,14 @@
   padding: 0.5em 1em;
   background-color: transparent;
   color: initial;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: unset;
   white-space: nowrap;
-  transition: background-color 0.2s;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .tabs-minimal-dark-withimg .tabs-minimal-dark-withimg-list button[aria-selected='true'] {

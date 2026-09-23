@@ -11,10 +11,17 @@
   margin-bottom: 0.8em;
 }
 
+.accordion details summary p {
+  margin: 0;
+}
+
 .accordion details summary {
   position: relative;
-  padding: 0 16px;
-  padding-right: 46px;
+  padding: 13px 46px 13px 16px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l); /* 24px */
+  font-weight: 400;
+  line-height: 36px;
   cursor: pointer;
   list-style: none;
   overflow: auto;
