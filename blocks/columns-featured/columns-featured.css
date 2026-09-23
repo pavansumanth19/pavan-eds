@@ -7,11 +7,6 @@
 
 .columns-featured {
   background-color: transparent;
-
-  /* Match the source's content width (~1136px) so the image/text don't render
-     larger than the source. */
-  max-width: 1136px;
-  margin-inline: auto;
 }
 
 .columns-featured > div {
