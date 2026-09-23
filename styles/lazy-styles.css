@@ -397,3 +397,57 @@ body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
   color: var(--text-color);
   font-weight: 400;
 }
+
+/* ===== Adventure detail page ===== */
+
+/* Two-column layout on desktop: metadata sidebar (left) + tabbed content
+   (right), with the title spanning full width above — matching the source. */
+@media (width >= 900px) {
+  body.adventure-detail main {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  body.adventure-detail main > .section.breadcrumbs-container,
+  body.adventure-detail main > .section.carousel-container,
+  body.adventure-detail main > .section.adventure-title {
+    grid-column: 1 / -1;
+  }
+
+  body.adventure-detail main > .section.adventure-meta {
+    grid-column: 1;
+  }
+
+  body.adventure-detail main > .section.adventure-tabs {
+    grid-column: 2;
+  }
+}
+
+/* Metadata block: the source stacks each row as a small gray uppercase label
+   above a bold black uppercase value (not a side-by-side 2-column table). */
+body.adventure-detail .adventure-meta .columns > div {
+  display: block;
+  margin-bottom: 22px;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div {
+  flex: none;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div:first-child p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #696969;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div:last-child p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}

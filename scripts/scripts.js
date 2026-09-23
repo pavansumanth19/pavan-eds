@@ -252,6 +252,35 @@ function decorateMagazineArticle(main) {
 }
 
 /**
+ * Adventure detail layout: the source places the metadata block ("Activity /
+ * Adventure Type / …") in a narrow left sidebar with the tabbed content
+ * (Overview / Itinerary / What to Bring) beside it on the right, with the H1
+ * spanning full width above both. Tag the metadata + tabs sections and lift the
+ * H1 so CSS can grid them into that layout. Defensive: bails if not found.
+ * @param {Element} main The main element
+ */
+function decorateAdventureDetail(main) {
+  if (!document.body.classList.contains('adventure-detail')) return;
+  const metaSection = [...main.querySelectorAll('.section')]
+    .find((s) => s.querySelector('.columns'));
+  const tabsSection = [...main.querySelectorAll('.section')]
+    .find((s) => s.querySelector('[class*="tabs"]'));
+  if (!metaSection) return;
+  metaSection.classList.add('adventure-meta');
+  if (tabsSection) tabsSection.classList.add('adventure-tabs');
+
+  // The H1 shares the metadata section; move it into its own full-width section
+  // ahead of the metadata so it spans the whole content width like the source.
+  const h1Wrapper = metaSection.querySelector('.default-content-wrapper');
+  if (h1Wrapper && h1Wrapper.querySelector('h1')) {
+    const titleSection = document.createElement('div');
+    titleSection.className = 'section adventure-title';
+    titleSection.append(h1Wrapper);
+    metaSection.before(titleSection);
+  }
+}
+
+/**
  * Strips the `.html` extension from internal links. The imported content
  * carries `.html` on internal hrefs (e.g. /us/en/magazine.html), but EDS serves
  * extensionless paths, so normalize them to avoid a redirect on click.
@@ -286,6 +315,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateMagazineArticle(main);
+  decorateAdventureDetail(main);
   normalizeInternalLinks(main);
 }
 
@@ -316,6 +346,11 @@ async function loadEager(doc) {
   // so its section-title underline and tab/card styling can be scoped in CSS.
   if (/\/adventures$/.test(window.location.pathname.replace(/\.html$/, ''))) {
     document.body.classList.add('adventures-listing');
+  }
+  // Tag adventure detail pages (…/adventures/<slug>) so their two-column layout
+  // (metadata sidebar + tabbed content) and metadata styling can be scoped.
+  if (/\/adventures\/[^/]+$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('adventure-detail');
   }
   const main = doc.querySelector('main');
   if (main) {
