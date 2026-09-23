@@ -451,3 +451,40 @@ body.adventure-detail .adventure-meta .columns > div > div:last-child p {
   text-transform: uppercase;
   color: var(--text-color);
 }
+
+/* Trip-details tabs use the dark-pill theme from the source: flat uppercase tab
+   labels, the selected one filled dark, sitting above a thin-ruled panel.
+   Scoped to the adventure detail page so the base tabs block is unchanged
+   elsewhere. */
+body.adventure-detail .adventure-tabs .tabs-list {
+  gap: 4px;
+  border-bottom: 1px solid var(--light-color);
+}
+
+body.adventure-detail .adventure-tabs .tabs-list button {
+  border: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+body.adventure-detail .adventure-tabs .tabs-list button[aria-selected='true'] {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  border-bottom: 0;
+}
+
+body.adventure-detail .adventure-tabs .tabs-panel {
+  margin-top: 0;
+  padding: 24px 0 0;
+  border: 0;
+}
+
+body.adventure-detail .adventure-tabs .tabs-panel img {
+  margin: 16px 0;
+}
