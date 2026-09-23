@@ -5,6 +5,23 @@
 @import url('../cards/cards.css');
 
 
+/* Section titles that introduce an article-card grid (e.g. "Recent Articles",
+   "Next Adventures") get a short yellow underline in the source. */
+main > .section.cards-article-container > .default-content-wrapper h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+main > .section.cards-article-container > .default-content-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
 .cards-article .cards-card-body h3 {
   font-family: var(--heading-font-family);
   font-weight: 400;
