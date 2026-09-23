@@ -20,5 +20,16 @@ export default function decorate(block) {
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }])));
+
+  // Tag social links by platform (from their text or href) so CSS can swap the
+  // text label for the matching SVG icon, matching the source's icon glyphs.
+  ul.querySelectorAll('.cards-profile-body a').forEach((a) => {
+    const hint = `${a.textContent} ${a.getAttribute('href') || ''}`.toLowerCase();
+    if (hint.includes('facebook')) a.classList.add('social-facebook');
+    else if (hint.includes('twitter')) a.classList.add('social-twitter');
+    else if (hint.includes('insta')) a.classList.add('social-instagram');
+    a.setAttribute('aria-label', a.textContent.trim());
+  });
+
   block.replaceChildren(ul);
 }

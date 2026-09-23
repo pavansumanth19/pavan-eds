@@ -29,6 +29,23 @@ main > .section.cards-profile-container {
   flex: 0 0 100%;
 }
 
+/* Section titles ("Our Contributors", "WKND Guides") get the short yellow
+   underline like the source. */
+.section.cards-profile-container > .default-content-wrapper h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.section.cards-profile-container > .default-content-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
 /* Source cards are a fixed ~263px within the ~1150px content column (4-up).
    Do NOT let them grow, so the 3-up "WKND Guides" row keeps the same card
    width and aligns to the start, matching the source proportions. */
@@ -102,9 +119,9 @@ main > .section.cards-profile-container {
   text-transform: uppercase;
 }
 
-/* Social link row: authored as a paragraph of inline <a> links (multiple
-   links in one <p>, so EDS does not button-decorate them). Present them as a
-   compact, centered row of small muted-gray links with no underline. */
+/* Social link row: authored as a paragraph of inline <a> links (Facebook /
+   Twitter / Instagram). The source renders them as small gray icon glyphs, so
+   hide the text label and show the matching SVG icon as a mask (tinted gray). */
 .cards-profile .cards-profile-body p {
   display: flex;
   justify-content: center;
@@ -113,12 +130,32 @@ main > .section.cards-profile-container {
 }
 
 .cards-profile .cards-profile-body p a:any-link {
-  color: #6f6f6f;
-  font-size: 14px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
   text-decoration: none;
+  background-color: #6f6f6f;
+  transition: background-color 0.2s;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
 }
 
 .cards-profile .cards-profile-body p a:hover {
-  color: var(--text-color);
-  text-decoration: none;
+  background-color: var(--text-color);
+}
+
+.cards-profile .cards-profile-body p a.social-facebook {
+  mask-image: url('/icons/facebook.svg');
+}
+
+.cards-profile .cards-profile-body p a.social-twitter {
+  mask-image: url('/icons/twitter.svg');
+}
+
+.cards-profile .cards-profile-body p a.social-instagram {
+  mask-image: url('/icons/instagram.svg');
 }
