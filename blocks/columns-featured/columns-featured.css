@@ -32,13 +32,16 @@
 }
 
 @media (width >= 900px) {
-  .columns-featured > div > div:not(.columns-img-col) {
-    flex: 0 0 38%;
-    padding: 63px 36px 36px;
+  /* Source places the image on the LEFT and the text on the RIGHT. */
+  .columns-featured > div > .columns-img-col {
+    order: 0;
+    flex: 0 0 62%;
   }
 
-  .columns-featured > div > .columns-img-col {
-    flex: 0 0 62%;
+  .columns-featured > div > div:not(.columns-img-col) {
+    order: 1;
+    flex: 0 0 38%;
+    padding: 63px 36px 36px;
   }
 }
 
