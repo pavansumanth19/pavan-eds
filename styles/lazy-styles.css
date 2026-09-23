@@ -1,5 +1,48 @@
 /* add global styles that can be loaded post LCP here */
 
+/* ===== FAQ page ===== */
+
+/* Two-column layout on desktop: FAQ content (title, intro, accordion) on the
+   left; the "Need more help?" block on the right — matching the source. The
+   section has three wrappers: [intro default-content], [accordion], [need-more
+   default-content]. Grid them so the first two stack in the left column and the
+   third sits in the right column, top-aligned. */
+@media (width >= 900px) {
+  body.faq-page main .section.accordion-container {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  body.faq-page main .section.accordion-container > .default-content-wrapper:first-child,
+  body.faq-page main .section.accordion-container > .accordion-wrapper {
+    grid-column: 1;
+  }
+
+  body.faq-page main .section.accordion-container > .default-content-wrapper:last-child {
+    grid-column: 2;
+    grid-row: 1 / 100;
+    align-self: start;
+  }
+}
+
+/* FAQ H1 gets the short yellow underline like the source section titles. */
+body.faq-page main .section.accordion-container > .default-content-wrapper:first-child h1 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.faq-page main .section.accordion-container > .default-content-wrapper:first-child h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
 /* ===== Magazine listing page ===== */
 
 /* Section titles ("All Articles", "Members Only") get the short yellow

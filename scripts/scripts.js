@@ -228,6 +228,11 @@ async function loadEager(doc) {
   if (/\/magazine$/.test(window.location.pathname.replace(/\.html$/, ''))) {
     document.body.classList.add('magazine-listing');
   }
+  // Tag the FAQ page so its two-column layout (FAQ content left, "Need more
+  // help?" right) and heading underline can be scoped in CSS.
+  if (/\/faqs?$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('faq-page');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
