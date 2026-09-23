@@ -86,3 +86,52 @@ main > .section > .carousel-hero-wrapper {
   background-color: var(--text-color);
   color: var(--accent-color);
 }
+
+/* Prev/Next arrows: the base carousel splits them to the far left/right and
+   centers them vertically. The source groups both at the bottom-right of the
+   slide, below the image. Override to place them together, bottom-right. */
+.carousel-hero .carousel-navigation-buttons {
+  inset: auto 24px 12px auto;
+  transform: none;
+  justify-content: flex-end;
+  gap: 16px;
+  width: auto;
+}
+
+/* Small dark chevrons on transparent background (not big circles) */
+.carousel-hero .carousel-navigation-buttons button {
+  width: 26px;
+  height: 26px;
+  background-color: transparent;
+  transition: opacity 0.2s;
+}
+
+.carousel-hero .carousel-navigation-buttons button:hover,
+.carousel-hero .carousel-navigation-buttons button:focus-visible {
+  background-color: transparent;
+  opacity: 0.6;
+}
+
+.carousel-hero .carousel-navigation-buttons button::after {
+  border-color: var(--text-color);
+}
+
+/* Indicator dots: transparent strip centered below the slide, matching source */
+.carousel-hero .carousel-slide-indicators {
+  padding: 16px 12px;
+  background-color: transparent;
+  gap: 6px 10px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-slide-indicator button {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+}
+
+.carousel-hero .carousel-slide-indicator button:disabled,
+.carousel-hero .carousel-slide-indicator button[aria-current='true'] {
+  background-color: var(--text-color);
+}
