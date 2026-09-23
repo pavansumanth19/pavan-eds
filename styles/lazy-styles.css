@@ -1,1 +1,12 @@
 /* add global styles that can be loaded post LCP here */
+
+/* Magazine article template: the "By {author}" byline (h4) uses the body font,
+   small, bold and uppercased in the source — not the default Asar heading. */
+body.magazine-article main .default-content-wrapper h4 {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 21px 0;
+}

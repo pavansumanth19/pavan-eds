@@ -162,6 +162,11 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  // Tag magazine article pages so their template-specific layout (byline,
+  // article + sidebar) can be scoped in CSS without extra authoring metadata.
+  if (window.location.pathname.includes('/magazine/')) {
+    document.body.classList.add('magazine-article');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
