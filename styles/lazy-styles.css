@@ -400,6 +400,22 @@ body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
 
 /* ===== Adventure detail page ===== */
 
+/* The adventure title gets the short yellow underline below it, matching the
+   source. */
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventure-detail .adventure-title h1 {
+  margin-bottom: 14px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventure-detail .adventure-title h1::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 /* Two-column layout on desktop: metadata sidebar (left) + tabbed content
    (right), with the title spanning full width above — matching the source. */
 @media (width >= 900px) {
