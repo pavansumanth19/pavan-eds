@@ -9,6 +9,9 @@
    "Next Adventures") get a short yellow underline in the source. */
 main > .section.cards-article-container > .default-content-wrapper h2 {
   position: relative;
+
+  /* Match the source's larger gap above the section title (~45px). */
+  margin-top: 45px;
   padding-bottom: 16px;
 }
 
