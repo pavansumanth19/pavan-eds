@@ -269,50 +269,64 @@ body.magazine-article .magazine-sidebar .magazine-sidebar-date {
   color: #696969;
 }
 
-/* Author byline card at the end of the article: separated by a top rule, a
-   small circular avatar, the author name + role, then social icon links —
-   matching the source. */
+/* Author byline card at the end of the article: separated by a top rule and
+   laid out as a single horizontal row — avatar | name+role | social icons — all
+   vertically centered, matching the source. */
 body.magazine-article .magazine-author {
+  display: flex;
+  align-items: center;
+  gap: 24px;
   margin-top: 40px;
   padding-top: 32px;
   border-top: 1px solid var(--light-color);
 }
 
 body.magazine-article .magazine-author .magazine-author-avatar {
-  margin: 0 0 12px;
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 body.magazine-article .magazine-author .magazine-author-avatar picture,
 body.magazine-article .magazine-author .magazine-author-avatar img {
+  display: block;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
 
+/* Name + role info column takes the remaining space; social group is pushed to
+   the far right. */
+body.magazine-article .magazine-author .magazine-author-info {
+  flex: 1 1 auto;
+}
+
 /* stylelint-disable-next-line no-descending-specificity */
 body.magazine-article .magazine-author h2 {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 24px;
 }
 
 /* The role line ("Skater, Writer") is compact body text, not a heading. */
 body.magazine-article .magazine-author h2 + p {
-  margin: 0 0 12px;
+  margin: 4px 0 0;
   font-size: 14px;
   color: #696969;
 }
 
-/* Social links import as one <p> per link (stacked). Lay the social paragraphs
-   out in a horizontal row so the buttons sit side by side, matching the source. */
-body.magazine-article .magazine-author p:has(a[class*='social-']) {
-  display: inline-block;
-  margin: 0 8px 0 0;
+body.magazine-article .magazine-author .magazine-author-social {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+body.magazine-article .magazine-author .magazine-author-social p {
+  margin: 0;
 }
 
 /* Each social link is a 48x48 dark square button; the platform icon shows as a
    light-tinted mask centered inside (source: #202020 button, #ebebeb glyph). */
-body.magazine-article .magazine-author p a[class*='social-'] {
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-'] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -327,7 +341,7 @@ body.magazine-article .magazine-author p a[class*='social-'] {
   transition: background-color 0.2s;
 }
 
-body.magazine-article .magazine-author p a[class*='social-']::before {
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-']::before {
   content: '';
   width: 20px;
   height: 20px;
@@ -337,18 +351,18 @@ body.magazine-article .magazine-author p a[class*='social-']::before {
   mask-size: contain;
 }
 
-body.magazine-article .magazine-author p a[class*='social-']:hover {
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-']:hover {
   background-color: #000;
 }
 
-body.magazine-article .magazine-author p a.social-facebook::before {
+body.magazine-article .magazine-author .magazine-author-social a.social-facebook::before {
   mask-image: url('/icons/facebook.svg');
 }
 
-body.magazine-article .magazine-author p a.social-twitter::before {
+body.magazine-article .magazine-author .magazine-author-social a.social-twitter::before {
   mask-image: url('/icons/twitter.svg');
 }
 
-body.magazine-article .magazine-author p a.social-instagram::before {
+body.magazine-article .magazine-author .magazine-author-social a.social-instagram::before {
   mask-image: url('/icons/instagram.svg');
 }

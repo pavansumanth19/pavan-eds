@@ -206,16 +206,37 @@ function decorateMagazineArticle(main) {
       avatar.classList.add('magazine-author-avatar');
       authorCard.append(avatar);
     }
+
+    // Collect the remaining author elements (name, role, social links) so they
+    // can be arranged into a single horizontal row: avatar | name+role | social.
+    const rest = [];
     let cur = authorHeading;
     while (cur) {
       const next = cur.nextElementSibling;
-      authorCard.append(cur);
+      rest.push(cur);
       cur = next;
     }
+
+    // Name + role stack in an info column; the social links (paragraphs whose
+    // only child is a link) move into a trailing social group.
+    const info = document.createElement('div');
+    info.className = 'magazine-author-info';
+    const social = document.createElement('div');
+    social.className = 'magazine-author-social';
+    rest.forEach((el) => {
+      const link = el.querySelector('a');
+      const isSocialLink = link && el.children.length === 1
+        && el.textContent.trim() === link.textContent.trim();
+      if (isSocialLink) social.append(el);
+      else info.append(el);
+    });
+
+    authorCard.append(info);
+    if (social.children.length) authorCard.append(social);
     bodyWrapper.append(authorCard);
 
     // Tag each social link by platform so CSS swaps the text for the icon.
-    authorCard.querySelectorAll('a').forEach((a) => {
+    social.querySelectorAll('a').forEach((a) => {
       const hint = `${a.textContent} ${a.getAttribute('href') || ''}`.toLowerCase();
       if (hint.includes('facebook')) a.classList.add('social-facebook');
       else if (hint.includes('twitter')) a.classList.add('social-twitter');
