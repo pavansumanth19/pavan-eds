@@ -99,10 +99,12 @@ main > .section > .carousel-hero-wrapper {
   width: auto;
 }
 
-/* Small dark chevrons on transparent background (not big circles) */
+/* Small dark chevrons only — no circular border/background around them */
 .carousel-hero .carousel-navigation-buttons button {
   width: 26px;
   height: 26px;
+  border: 0;
+  border-radius: 0;
   background-color: transparent;
   transition: opacity 0.2s;
 }
