@@ -124,11 +124,21 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
+  const classes = ['brand', 'sections', 'tools', 'utility'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
   });
+
+  // Pull the utility block (Sign In / language) out of the nav and render it as
+  // a thin dark bar above the main header, matching the source's top strip.
+  const navUtility = nav.querySelector('.nav-utility');
+  let utilityWrapper;
+  if (navUtility) {
+    utilityWrapper = document.createElement('div');
+    utilityWrapper.className = 'nav-utility-wrapper';
+    utilityWrapper.append(navUtility);
+  }
 
   const navBrand = nav.querySelector('.nav-brand');
   const brandLink = navBrand.querySelector('.button');
@@ -167,5 +177,7 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
+  // Utility bar sits above the main nav
+  if (utilityWrapper) block.append(utilityWrapper);
   block.append(navWrapper);
 }

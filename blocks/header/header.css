@@ -294,3 +294,52 @@ header nav .nav-sections ul > li > ul > li {
 header nav .nav-tools {
   grid-area: tools;
 }
+
+/* utility bar — thin dark strip above the header (Sign In / language),
+   matching the source's top strip. Placed after nav rules to keep the
+   cascade order clean. */
+.nav-utility-wrapper {
+  background-color: var(--dark-color);
+  color: #fff;
+  width: 100%;
+}
+
+.nav-utility-wrapper .nav-utility {
+  max-width: 1264px;
+  margin: auto;
+  padding: 8px 32px;
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* The fragment wraps the Sign In / language paragraphs in a
+   .default-content-wrapper; make that the flex row so they sit inline,
+   right-aligned, on one line. */
+.nav-utility-wrapper .nav-utility .default-content-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-utility-wrapper .nav-utility .default-content-wrapper > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.nav-utility-wrapper .nav-utility p {
+  margin: 0;
+}
+
+/* stylelint-disable no-descending-specificity -- separate DOM subtree from nav links */
+.nav-utility-wrapper .nav-utility a:any-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-utility-wrapper .nav-utility a:hover {
+  color: var(--accent-color);
+}
+/* stylelint-enable no-descending-specificity */
