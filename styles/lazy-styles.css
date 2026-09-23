@@ -45,11 +45,27 @@ body.magazine-listing .hero-banner {
   min-height: 0;
 }
 
+/* The base block absolutely-positions the image wrapper (inset:0) so it fills a
+   full-bleed hero — that makes it escape the flow here and overflow the footer.
+   Put it back in normal flow so the teaser sizes to image + text. */
+body.magazine-listing .hero-banner .hero-banner-image {
+  position: static;
+  inset: auto;
+  height: auto;
+}
+
+body.magazine-listing .hero-banner .hero-banner-image,
+body.magazine-listing .hero-banner .hero-banner-image > div,
+body.magazine-listing .hero-banner .hero-banner-image picture {
+  height: auto;
+}
+
 body.magazine-listing .hero-banner .hero-banner-image img {
   position: static;
   width: 100%;
   height: auto;
   max-height: none;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
