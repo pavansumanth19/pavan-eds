@@ -10,21 +10,24 @@ footer .footer > div {
   padding: 40px 24px;
 }
 
-/* Source footer stacks its content vertically, left-aligned:
-   logo · nav · Follow Us · social · copyright · descriptive paragraphs. */
+/* Source footer top row is horizontal — logo · nav · Follow Us · social — with
+   the copyright and descriptive paragraphs stacked full-width below it. */
 footer .footer .default-content-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
-/* WKND logo (first paragraph) */
+/* WKND logo (first paragraph) — reserve its full width so the nav clears it */
 footer .footer .default-content-wrapper > p:first-child {
+  flex: 0 0 auto;
+  min-width: 128px;
+  margin-right: 24px;
   line-height: 0;
 }
 
@@ -71,8 +74,9 @@ footer .footer ul a:hover {
   color: var(--accent-color);
 }
 
-/* "Follow Us" label */
+/* "Follow Us" label — pushed toward the right of the top row (before social) */
 footer .footer .default-content-wrapper > p:nth-child(3) {
+  margin-left: auto;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -114,14 +118,16 @@ footer .footer .default-content-wrapper > p:nth-child(4) a .icon img {
   height: 20px;
 }
 
-/* Copyright */
+/* Copyright — breaks to its own full-width line below the top row */
 footer .footer .default-content-wrapper > p:nth-child(5) {
+  flex: 0 0 100%;
   margin-top: 16px;
   color: #b5b5b5;
 }
 
-/* Descriptive / legal paragraphs: small, muted, justified like the source */
+/* Descriptive / legal paragraphs: full-width, small, muted, justified */
 footer .footer .default-content-wrapper > p:nth-child(n + 6) {
+  flex: 0 0 100%;
   max-width: 100%;
   font-size: 12px;
   line-height: 1.6;
