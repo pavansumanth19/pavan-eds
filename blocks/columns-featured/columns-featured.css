@@ -6,17 +6,40 @@
 
 
 .columns-featured {
-  background-color: var(--light-color);
+  background-color: transparent;
 }
 
 .columns-featured > div {
   align-items: center;
-  gap: 32px;
+  gap: 0;
+}
+
+/* Text column ~38% / image column ~62%, matching the source split */
+.columns-featured > div > div {
+  padding: 0;
 }
 
 .columns-featured h2 {
   font-family: var(--heading-font-family);
   font-weight: 400;
+  margin: 18px 0;
+}
+
+/* "Featured Article" eyebrow label is bold in the source */
+.columns-featured > div > div > p:first-child {
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+@media (width >= 900px) {
+  .columns-featured > div > div:not(.columns-img-col) {
+    flex: 0 0 38%;
+    padding: 63px 36px 36px;
+  }
+
+  .columns-featured > div > .columns-img-col {
+    flex: 0 0 62%;
+  }
 }
 
 /* CTA link styled as the WKND yellow button */
@@ -38,8 +61,3 @@
   color: var(--accent-color);
 }
 
-@media (width >= 900px) {
-  .columns-featured > div > div {
-    padding: 24px;
-  }
-}
