@@ -14,9 +14,10 @@ main > .section > .carousel-hero-wrapper {
 }
 
 /* Source aligns the content card toward the lower area of the slide,
-   not vertically centered as the base carousel does. */
+   not vertically centered as the base carousel does. Height matches the
+   source hero (~44.4vw ≈ 640px at 1440, capped at 640px). */
 .carousel-hero .carousel-slide {
-  min-height: min(50vw, 740px);
+  min-height: min(44.4vw, 640px);
   justify-content: flex-end;
 }
 
@@ -41,7 +42,10 @@ main > .section > .carousel-hero-wrapper {
     width: 83%;
     max-width: none;
     margin: 0 0 0 8.5%;
-    padding: 8px 28px 28px;
+
+    /* Match the source card: side gutters only, tight vertical rhythm from
+       element margins (card ends up ~189px tall). */
+    padding: 0 28px 28px;
   }
 }
 
@@ -52,19 +56,25 @@ main > .section > .carousel-hero-wrapper {
   line-height: 1.5;
 }
 
+/* Match the source's tight rhythm: no inter-element margins (heading's
+   line-height and the button's own padding provide the spacing). */
 .carousel-hero .carousel-slide .carousel-slide-content p {
-  margin: 8px 0 0;
+  margin: 0;
+}
+
+.carousel-hero .carousel-slide .carousel-slide-content p:last-child {
+  margin-top: 16px;
 }
 
 /* CTA link styled as the WKND yellow button */
 .carousel-hero .carousel-slide-content a:any-link {
   display: inline-block;
-  margin-top: 12px;
   padding: 14px 35px;
   background-color: var(--accent-color);
   color: var(--text-color);
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.5;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
