@@ -71,9 +71,12 @@
   object-fit: cover;
 }
 
-/* Card title: bold black uppercase link (source). The imported markup places
-   the title as the first link in the second paragraph of each card. */
+/* Card title: bold black link (source). The imported markup places the title
+   link and the description in the same paragraph, so make the link a block so
+   the description drops to its own line beneath it. */
 .tabs-minimal-dark-withimg .tabs-minimal-dark-withimg-panel li a {
+  display: block;
+  margin-bottom: 6px;
   color: var(--text-color);
   font-weight: 700;
   text-decoration: none;
