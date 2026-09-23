@@ -11,18 +11,41 @@
   body.faq-page main .section.accordion-container {
     display: grid;
     grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
+    grid-template-rows: auto 1fr;
     column-gap: 72px;
     align-items: start;
+
+    /* The section itself now owns the content width + padding (below); its grid
+       children must fill their cells, so neutralise the global
+       "main > .section > div" cap + auto-centering + padding. */
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 32px;
+    box-sizing: border-box;
   }
 
-  body.faq-page main .section.accordion-container > .default-content-wrapper:first-child,
+  body.faq-page main .section.accordion-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Left column: intro (title, image, text) on row 1, accordion on row 2. */
+  body.faq-page main .section.accordion-container > .default-content-wrapper:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   body.faq-page main .section.accordion-container > .accordion-wrapper {
     grid-column: 1;
+    grid-row: 2;
   }
 
+  /* Right column: "Need more help?" pinned to the top of the section, aligned
+     with the H1 (matching the source), spanning both rows. */
   body.faq-page main .section.accordion-container > .default-content-wrapper:last-child {
     grid-column: 2;
-    grid-row: 1 / 100;
+    grid-row: 1 / span 2;
     align-self: start;
   }
 }
