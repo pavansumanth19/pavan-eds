@@ -191,16 +191,18 @@ body.magazine-article main .default-content-wrapper > h2::after {
 }
 
 /* Two-column article + sidebar on desktop (source layout). The article body
-   flows in the left column; the lifted .magazine-sidebar sits on the right. */
+   flows in the left column; the lifted .magazine-sidebar sits on the right.
+   Scoped to .magazine-article-body (tagged in JS) rather than .quote-container,
+   since not every article contains a blockquote. */
 @media (width >= 900px) {
-  body.magazine-article main .section.quote-container {
+  body.magazine-article main .section.magazine-article-body {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     column-gap: 48px;
     align-items: start;
   }
 
-  body.magazine-article main .section.quote-container > .breadcrumbs-wrapper {
+  body.magazine-article main .section.magazine-article-body > .breadcrumbs-wrapper {
     grid-column: 1 / -1;
 
     /* Neutralise the global "main > .section > div" cap + auto-centering so the
@@ -211,7 +213,7 @@ body.magazine-article main .default-content-wrapper > h2::after {
     padding: 0 32px;
   }
 
-  body.magazine-article main .section.quote-container > .magazine-sidebar {
+  body.magazine-article main .section.magazine-article-body > .magazine-sidebar {
     grid-column: 2;
     grid-row: 2 / 100;
     align-self: start;

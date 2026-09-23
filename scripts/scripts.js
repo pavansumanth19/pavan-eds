@@ -169,7 +169,12 @@ function decorateMagazineArticle(main) {
     aside.append(node);
     node = next;
   }
-  bodyWrapper.closest('.section').append(aside);
+  const articleSection = bodyWrapper.closest('.section');
+  articleSection.append(aside);
+  // Tag the section so the two-column (article + sidebar) grid layout applies
+  // reliably. Not all articles contain a blockquote (which would add the
+  // `quote-container` class), so we can't rely on that class for scoping.
+  articleSection.classList.add('magazine-article-body');
 
   // Each related-article link imports as one run of text: "<Title> <Weekday>,
   // <D Mon YYYY>". Split the trailing date onto its own line so the sidebar can
