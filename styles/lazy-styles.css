@@ -368,3 +368,32 @@ body.magazine-article .magazine-author .magazine-author-social a.social-twitter:
 body.magazine-article .magazine-author .magazine-author-social a.social-instagram::before {
   mask-image: url('/icons/instagram.svg');
 }
+
+/* ===== Adventures listing page ===== */
+
+/* The "Current Adventures" section title gets the short yellow underline like
+   the source. Its section directly precedes the tabs-container section; the
+   intro heading ("Experience the world with us") has no underline in the source,
+   so scope this to the section immediately before the tabs. */
+body.adventures-listing main .section:has(+ .section.tabs-minimal-dark-withimg-container) h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.adventures-listing main .section:has(+ .section.tabs-minimal-dark-withimg-container) h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 84px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* Card titles in the tabs block are blue regular-weight links in the source,
+   not bold black. Scope to the adventures listing so other uses are unaffected. */
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
+  color: var(--link-color);
+  font-weight: 400;
+}

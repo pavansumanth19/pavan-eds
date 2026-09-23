@@ -312,6 +312,11 @@ async function loadEager(doc) {
   if (/\/faqs?$/.test(window.location.pathname.replace(/\.html$/, ''))) {
     document.body.classList.add('faq-page');
   }
+  // Tag the adventures landing/listing page (…/adventures, no trailing segment)
+  // so its section-title underline and tab/card styling can be scoped in CSS.
+  if (/\/adventures$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('adventures-listing');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
