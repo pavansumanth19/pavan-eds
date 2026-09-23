@@ -1,0 +1,6 @@
+/* article-feed — dynamic (query-index-driven) article/adventure teaser grid.
+   The block adopts the base `cards` + `cards-article` classes in JS, so the
+   shared grid + card styling from those blocks applies. EDS only auto-loads the
+   CSS named after this block, so import those layers here too. */
+@import url('../cards/cards.css');
+@import url('../cards-article/cards-article.css');

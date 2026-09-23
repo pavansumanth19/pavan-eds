@@ -8,9 +8,12 @@ indices:
         select: none
         value: path
       title:
-        select: head > meta[property="og:title"]
+        # The global metadata sheet forces og:title to a placeholder ("og title")
+        # for every page, so select the per-page <title> instead — it carries the
+        # real page title and is what dynamic listing cards display.
+        select: head > title
         value: |
-          attribute(el, 'content')
+          textContent(el)
       description:
         select: head > meta[name="description"]
         value: |
@@ -19,3 +22,22 @@ indices:
         select: head > meta[property="og:image"]
         value: |
           attribute(el, 'content')
+      publisheddate:
+        # Authored "Publication Date" metadata, emitted as <meta name="publisheddate">.
+        # Used to order the "recent articles" and related rails by real publish date.
+        select: head > meta[name="publisheddate"]
+        value: |
+          attribute(el, 'content')
+      template:
+        # Section/template tag (e.g. magazine-article, adventure-detail) so listings
+        # can filter by content type without relying only on the path prefix.
+        select: head > meta[name="template"]
+        value: |
+          attribute(el, 'content')
+      lastModified:
+        # Automatic publish timestamp from the HTTP header. Guarantees a brand-new
+        # article sorts to the top of "recent" rails even before an authored
+        # Publication Date is added — no manual field required for new content.
+        select: none
+        value: |
+          parseTimestamp(headers['last-modified'], 'ddd, DD MMM YYYY hh:mm:ss GMT')
