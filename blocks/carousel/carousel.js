@@ -78,6 +78,13 @@ function createSlide(row, slideIndex, carouselId) {
   slide.classList.add('carousel-slide');
 
   row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
+    // Drop empty content cells (some sources author an image-only slide with a
+    // trailing empty div) — otherwise the styled content box renders as an empty
+    // dark bar over the image.
+    if (colIdx > 0 && column.children.length === 0 && column.textContent.trim() === '') {
+      column.remove();
+      return;
+    }
     column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
     slide.append(column);
   });
