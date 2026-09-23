@@ -63,3 +63,13 @@ main > .section.cards-article-container > .default-content-wrapper a:hover {
   background-color: var(--text-color);
   color: var(--accent-color);
 }
+
+/* Horizontal separator line under the CTA button (source shows a full-width
+   light-gray rule below "All Articles" / "All Trips"). The CTA paragraph is
+   followed by the next section heading in the same wrapper, so draw the rule as
+   the paragraph's bottom border. */
+main > .section.cards-article-container > .default-content-wrapper p:has(a) {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ebebeb;
+}
