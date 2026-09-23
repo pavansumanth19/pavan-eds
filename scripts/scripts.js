@@ -170,6 +170,25 @@ function decorateMagazineArticle(main) {
     node = next;
   }
   bodyWrapper.closest('.section').append(aside);
+
+  // Each related-article link imports as one run of text: "<Title> <Weekday>,
+  // <D Mon YYYY>". Split the trailing date onto its own line so the sidebar can
+  // render the title and date as the source does (title above, gray date below).
+  aside.querySelectorAll('li a').forEach((a) => {
+    if (a.querySelector('.magazine-sidebar-title')) return;
+    const text = a.textContent.trim();
+    const match = text.match(/^(.*?)\s+((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+\d{1,2}\s+\w+\s+\d{4})$/);
+    if (!match) return;
+    const [, title, date] = match;
+    a.textContent = '';
+    const titleEl = document.createElement('span');
+    titleEl.className = 'magazine-sidebar-title';
+    titleEl.textContent = title;
+    const dateEl = document.createElement('span');
+    dateEl.className = 'magazine-sidebar-date';
+    dateEl.textContent = date;
+    a.append(titleEl, dateEl);
+  });
 }
 
 /**

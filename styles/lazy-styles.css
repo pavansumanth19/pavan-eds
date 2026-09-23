@@ -202,9 +202,15 @@ body.magazine-article main .default-content-wrapper h4 {
   }
 }
 
-/* Sidebar styling: related-articles list */
+/* Sidebar styling: "SHARE THIS STORY" heading + related-articles list. Matches
+   the source — a compact uppercase body-font heading, then each related article
+   as a block with its title above a small gray date, highlighted yellow on
+   hover. */
 body.magazine-article .magazine-sidebar h5 {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -216,15 +222,33 @@ body.magazine-article .magazine-sidebar ul {
 }
 
 body.magazine-article .magazine-sidebar ul li {
-  padding: 12px 0;
-  border-top: 1px solid var(--light-color);
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
 }
 
 body.magazine-article .magazine-sidebar ul a {
+  display: block;
+  padding: 8px 16px;
   text-decoration: none;
   color: var(--text-color);
+  transition: background-color 0.2s;
 }
 
 body.magazine-article .magazine-sidebar ul a:hover {
-  color: var(--link-color);
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+body.magazine-article .magazine-sidebar .magazine-sidebar-title {
+  display: block;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+body.magazine-article .magazine-sidebar .magazine-sidebar-date {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #696969;
 }
