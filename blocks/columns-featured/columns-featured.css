@@ -10,14 +10,27 @@
 }
 
 .columns-featured > div {
-  /* Source top-aligns the text next to the image (not vertically centered). */
-  align-items: start;
+  /* Stretch so the gray text panel matches the image height (source). */
+  align-items: stretch;
   gap: 0;
 }
 
 /* Text column ~38% / image column ~62%, matching the source split */
 .columns-featured > div > div {
   padding: 0;
+}
+
+/* Text column sits on a light-gray panel in the source (#ebebeb) */
+.columns-featured > div > div:not(.columns-img-col) {
+  background-color: #ebebeb;
+}
+
+/* Image column has no padding and its image fills the column */
+.columns-featured > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .columns-featured h2 {
