@@ -186,6 +186,12 @@ body.magazine-article main .default-content-wrapper h4 {
 
   body.magazine-article main .section.quote-container > .breadcrumbs-wrapper {
     grid-column: 1 / -1;
+    /* Neutralise the global "main > .section > div" cap + auto-centering so the
+       breadcrumb sits at the left edge, aligned with the article title. Keep the
+       horizontal padding so it lines up with the title/body, not flush at 0. */
+    max-width: none;
+    margin: 0;
+    padding: 0 32px;
   }
 
   body.magazine-article main .section.quote-container > .magazine-sidebar {
