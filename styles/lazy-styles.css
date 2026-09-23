@@ -252,3 +252,72 @@ body.magazine-article .magazine-sidebar .magazine-sidebar-date {
   font-size: 12px;
   color: #696969;
 }
+
+/* Author byline card at the end of the article: separated by a top rule, a
+   small circular avatar, the author name + role, then social icon links —
+   matching the source. */
+body.magazine-article .magazine-author {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--light-color);
+}
+
+body.magazine-article .magazine-author .magazine-author-avatar {
+  margin: 0 0 12px;
+}
+
+body.magazine-article .magazine-author .magazine-author-avatar picture,
+body.magazine-article .magazine-author .magazine-author-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.magazine-article .magazine-author h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+/* The role line ("Skater, Writer") is compact body text, not a heading. */
+body.magazine-article .magazine-author h2 + p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #696969;
+}
+
+/* Social links: hide the text label and show the matching SVG icon as a mask
+   (tinted gray), the same treatment as the contributor cards. */
+body.magazine-article .magazine-author p a:any-link {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: #6f6f6f;
+  transition: background-color 0.2s;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+body.magazine-article .magazine-author p a:hover {
+  background-color: var(--text-color);
+}
+
+body.magazine-article .magazine-author p a.social-facebook {
+  mask-image: url('/icons/facebook.svg');
+}
+
+body.magazine-article .magazine-author p a.social-twitter {
+  mask-image: url('/icons/twitter.svg');
+}
+
+body.magazine-article .magazine-author p a.social-instagram {
+  mask-image: url('/icons/instagram.svg');
+}

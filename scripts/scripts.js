@@ -189,6 +189,40 @@ function decorateMagazineArticle(main) {
     dateEl.textContent = date;
     a.append(titleEl, dateEl);
   });
+
+  // The article ends with an author byline card: a small avatar image, the
+  // author name (last h2), a role line, and social links. The source renders
+  // this as a compact card (circular avatar, name/role beside it, social icons).
+  // Group those trailing elements and tag the social links so CSS can show icon
+  // glyphs (matching cards-profile) instead of the plain "Facebook" text.
+  const bodyHeadings = [...bodyWrapper.querySelectorAll('h2')];
+  const authorHeading = bodyHeadings[bodyHeadings.length - 1];
+  if (authorHeading) {
+    const authorCard = document.createElement('div');
+    authorCard.className = 'magazine-author';
+    // The avatar image sits in the paragraph immediately before the name.
+    const avatar = authorHeading.previousElementSibling;
+    if (avatar && avatar.querySelector('picture')) {
+      avatar.classList.add('magazine-author-avatar');
+      authorCard.append(avatar);
+    }
+    let cur = authorHeading;
+    while (cur) {
+      const next = cur.nextElementSibling;
+      authorCard.append(cur);
+      cur = next;
+    }
+    bodyWrapper.append(authorCard);
+
+    // Tag each social link by platform so CSS swaps the text for the icon.
+    authorCard.querySelectorAll('a').forEach((a) => {
+      const hint = `${a.textContent} ${a.getAttribute('href') || ''}`.toLowerCase();
+      if (hint.includes('facebook')) a.classList.add('social-facebook');
+      else if (hint.includes('twitter')) a.classList.add('social-twitter');
+      else if (hint.includes('insta')) a.classList.add('social-instagram');
+      a.setAttribute('aria-label', a.textContent.trim());
+    });
+  }
 }
 
 /**
