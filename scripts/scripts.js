@@ -173,6 +173,29 @@ function decorateMagazineArticle(main) {
 }
 
 /**
+ * Strips the `.html` extension from internal links. The imported content
+ * carries `.html` on internal hrefs (e.g. /us/en/magazine.html), but EDS serves
+ * extensionless paths, so normalize them to avoid a redirect on click.
+ * @param {Element} main The main element
+ */
+function normalizeInternalLinks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href) return;
+    try {
+      const url = new URL(href, window.location.href);
+      // only touch same-origin links that end in .html
+      if (url.origin === window.location.origin && url.pathname.endsWith('.html')) {
+        url.pathname = url.pathname.replace(/\.html$/, '');
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      }
+    } catch {
+      /* ignore malformed hrefs */
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -184,6 +207,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateMagazineArticle(main);
+  normalizeInternalLinks(main);
 }
 
 /**
