@@ -560,6 +560,7 @@ body.adventure-detail .carousel .carousel-navigation-buttons {
 body.adventure-detail .carousel .carousel-navigation-buttons button {
   width: 24px;
   height: 24px;
+  border: 0;
   border-radius: 0;
   background-color: transparent;
 }
