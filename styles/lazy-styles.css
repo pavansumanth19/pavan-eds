@@ -10,8 +10,8 @@
 @media (width >= 900px) {
   body.faq-page main .section.accordion-container {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    column-gap: 48px;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
+    column-gap: 72px;
     align-items: start;
   }
 
@@ -25,6 +25,17 @@
     grid-row: 1 / 100;
     align-self: start;
   }
+}
+
+/* Right column ("Need more help?") is separated from the top of its column by a
+   thin rule above the heading, matching the source. */
+body.faq-page main .section.accordion-container > .default-content-wrapper:last-child {
+  padding-top: 20px;
+  border-top: 2px solid var(--light-color);
+}
+
+body.faq-page main .section.accordion-container > .default-content-wrapper:last-child h3 {
+  margin-top: 0;
 }
 
 /* FAQ H1 gets the short yellow underline like the source section titles. */
