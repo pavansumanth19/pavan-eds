@@ -35,7 +35,7 @@ main > .section.cards-article-container > .default-content-wrapper h2::after {
 }
 
 .cards-article .cards-card-body h3 a {
-  color: var(--link-color);
+  color: var(--text-color);
   font-weight: 700;
   text-decoration: none;
 }
