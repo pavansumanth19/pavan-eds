@@ -192,8 +192,18 @@ header nav .nav-sections ul > li {
   letter-spacing: 0.05em;
 }
 
-header nav .nav-sections a:any-link:hover {
-  color: var(--link-color);
+/* Nav links get a yellow background block on hover/focus, matching the source */
+header nav .nav-sections a:any-link {
+  display: block;
+  padding: 15px 17px;
+  color: var(--text-color);
+  transition: background-color 0.15s;
+}
+
+header nav .nav-sections a:any-link:hover,
+header nav .nav-sections a:any-link:focus {
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
 
 header nav .nav-sections ul > li > ul {
@@ -248,8 +258,9 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 0;
     margin: 0;
+    align-items: center;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li {
@@ -290,9 +301,43 @@ header nav .nav-sections ul > li > ul > li {
   }
 }
 
-/* tools */
+/* tools — search rendered as a box with an icon, matching the source */
 header nav .nav-tools {
   grid-area: tools;
+}
+
+/* stylelint-disable no-descending-specificity -- tools/utility are separate subtrees */
+header nav .nav-tools .default-content-wrapper > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 166px;
+  height: 42px;
+  margin: 0;
+  padding: 0 12px;
+  background-color: rgb(235 235 235 / 54%);
+  color: #6b6b6b;
+  font-size: var(--body-font-size-xs);
+}
+
+/* "Search" placeholder label after the icon */
+header nav .nav-tools .default-content-wrapper > p .icon-search::after {
+  content: 'Search';
+  margin-left: 8px;
+  color: #6b6b6b;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+header nav .nav-tools .icon-search {
+  display: inline-flex;
+  align-items: center;
+}
+
+header nav .nav-tools .icon-search img {
+  width: 16px;
+  height: 16px;
 }
 
 /* utility bar — thin dark strip above the header (Sign In / language),
@@ -332,6 +377,7 @@ header nav .nav-tools {
 .nav-utility-wrapper .nav-utility p {
   margin: 0;
 }
+/* stylelint-enable no-descending-specificity */
 
 /* stylelint-disable no-descending-specificity -- separate DOM subtree from nav links */
 .nav-utility-wrapper .nav-utility a:any-link {
