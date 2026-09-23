@@ -143,6 +143,36 @@ function decorateButtons(main) {
 }
 
 /**
+ * Magazine article layout: the source renders the story body in a main column
+ * with a right-hand sidebar holding "Share this Story" + related articles.
+ * The imported content places the share heading and its related-links list at
+ * the end of the article's default-content flow; lift them into an <aside> so
+ * CSS can grid them into the sidebar column. Defensive: bails if not found.
+ * @param {Element} main The main element
+ */
+function decorateMagazineArticle(main) {
+  if (!document.body.classList.contains('magazine-article')) return;
+  const wrappers = [...main.querySelectorAll('.default-content-wrapper')];
+  const bodyWrapper = wrappers.find((w) => w.querySelector('h5'));
+  if (!bodyWrapper) return;
+  const shareHeading = [...bodyWrapper.querySelectorAll('h5')]
+    .find((h) => /share this story/i.test(h.textContent));
+  if (!shareHeading) return;
+
+  const aside = document.createElement('aside');
+  aside.className = 'magazine-sidebar';
+  // Move the share heading and everything after it (the related-articles list)
+  // out of the article flow and into the sidebar.
+  let node = shareHeading;
+  while (node) {
+    const next = node.nextElementSibling;
+    aside.append(node);
+    node = next;
+  }
+  bodyWrapper.closest('.section').append(aside);
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -153,6 +183,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateMagazineArticle(main);
 }
 
 /**

@@ -10,3 +10,51 @@ body.magazine-article main .default-content-wrapper h4 {
   letter-spacing: 0.04em;
   margin: 21px 0;
 }
+
+/* Two-column article + sidebar on desktop (source layout). The article body
+   flows in the left column; the lifted .magazine-sidebar sits on the right. */
+@media (width >= 900px) {
+  body.magazine-article main .section.quote-container {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  body.magazine-article main .section.quote-container > .breadcrumbs-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  body.magazine-article main .section.quote-container > .magazine-sidebar {
+    grid-column: 2;
+    grid-row: 2 / 100;
+    align-self: start;
+  }
+}
+
+/* Sidebar styling: related-articles list */
+body.magazine-article .magazine-sidebar h5 {
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.magazine-article .magazine-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.magazine-article .magazine-sidebar ul li {
+  padding: 12px 0;
+  border-top: 1px solid var(--light-color);
+}
+
+body.magazine-article .magazine-sidebar ul a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+body.magazine-article .magazine-sidebar ul a:hover {
+  color: var(--link-color);
+}
