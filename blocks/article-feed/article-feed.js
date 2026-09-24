@@ -118,6 +118,17 @@ export default async function decorate(block) {
 
   const data = await fetchIndex();
 
+  // Paths that are an ancestor of another indexed page are section/listing pages
+  // (e.g. …/magazine/members-only, which has child articles under it), not
+  // articles. The source's rails only show leaf article/adventure pages, so skip
+  // any path that other paths nest beneath.
+  const listingPaths = new Set();
+  data.forEach((item) => {
+    if (!item.path) return;
+    const parent = item.path.replace(/\/[^/]+$/, '');
+    if (parent) listingPaths.add(parent);
+  });
+
   const items = data
     .filter((item) => {
       if (!item.path) return false;
@@ -125,6 +136,8 @@ export default async function decorate(block) {
       if (filter && !item.path.includes(`/${filter}/`)) return false;
       // Exclude the section landing page itself (…/magazine, …/adventures).
       if (filter && new RegExp(`/${filter}$`).test(item.path)) return false;
+      // Exclude nested listing pages (e.g. …/magazine/members-only).
+      if (listingPaths.has(item.path)) return false;
       if (locale && !item.path.startsWith(locale)) return false;
       if (excludeCurrent && item.path === currentPath) return false;
       // Free-text search matches title/description/path.
