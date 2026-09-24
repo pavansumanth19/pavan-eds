@@ -447,6 +447,15 @@ body.adventure-detail .adventure-title h1::after {
     grid-column: 1 / -1;
   }
 
+  /* The hero carousel is full-bleed in the source — it spans the entire
+     viewport width, not just the centred content column. Break it out of the
+     constrained grid with the viewport-width technique. */
+  body.adventure-detail main > .section.carousel-container {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
+
   body.adventure-detail main > .section.adventure-meta {
     grid-column: 1;
   }
