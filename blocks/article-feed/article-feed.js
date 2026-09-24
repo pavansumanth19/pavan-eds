@@ -56,11 +56,25 @@ async function fetchIndex() {
   return indexPromise;
 }
 
-/** Newest-first comparator by publisheddate (falls back to lastModified). */
+/** Timestamp for an item, or 0 when no date field is indexed. */
+function timeOf(item) {
+  return Date.parse(item.publisheddate) || Number(item.lastModified) * 1000 || 0;
+}
+
+/**
+ * Newest-first comparator. Prefers a real date (publisheddate, then the
+ * automatic lastModified header). When neither is indexed — which happens while
+ * the query-index config is still serving the original column set — fall back to
+ * the item's position in the index: AEM appends newly-published pages to the
+ * end, so a higher original index means a newer page. This guarantees a
+ * brand-new article surfaces at the top of the "recent" rails (and thus the
+ * home page) with no code change, even before a date column is available.
+ */
 function byNewest(a, b) {
-  const da = Date.parse(a.publisheddate) || Number(a.lastModified) * 1000 || 0;
-  const db = Date.parse(b.publisheddate) || Number(b.lastModified) * 1000 || 0;
-  return db - da;
+  const ta = timeOf(a);
+  const tb = timeOf(b);
+  if (ta !== tb) return tb - ta;
+  return (b.indexPos || 0) - (a.indexPos || 0);
 }
 
 /** Human-readable title, with a fallback derived from the path slug when the
@@ -117,6 +131,10 @@ export default async function decorate(block) {
   const query = (new URLSearchParams(window.location.search).get('q') || '').trim().toLowerCase();
 
   const data = await fetchIndex();
+
+  // Record each item's position in the index so byNewest() can fall back to it
+  // when no date column is available (AEM appends new pages → higher pos = newer).
+  data.forEach((item, i) => { item.indexPos = i; });
 
   // Paths that are an ancestor of another indexed page are section/listing pages
   // (e.g. …/magazine/members-only, which has child articles under it), not
