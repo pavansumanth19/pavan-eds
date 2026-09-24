@@ -16,5 +16,17 @@ export default async function decorate(block) {
   const footer = document.createElement('div');
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
 
+  // Accessibility: the WKND logo link is icon-only (empty title, no text), which
+  // fails the "links must have discernible text" check. Give any icon-only link
+  // an accessible name so screen readers and Lighthouse a11y pass.
+  footer.querySelectorAll('a').forEach((a) => {
+    const hasText = a.textContent.trim().length > 0;
+    const hasLabel = a.getAttribute('aria-label') || (a.getAttribute('title') || '').trim();
+    if (!hasText && !hasLabel) {
+      const img = a.querySelector('img[alt]');
+      a.setAttribute('aria-label', (img && img.getAttribute('alt')) || 'WKND home');
+    }
+  });
+
   block.append(footer);
 }
