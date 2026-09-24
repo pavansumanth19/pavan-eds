@@ -83,6 +83,14 @@
   text-decoration: underline;
 }
 
+/* Match the source's uniform card grid: the description is clamped to a single
+   line with an ellipsis so every card is the same height regardless of copy
+   length (the source shows one truncated line under each title). */
 .adventure-tabs .adventure-tabs-panel li p {
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
