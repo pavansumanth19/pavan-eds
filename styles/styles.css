@@ -72,6 +72,16 @@ header {
   height: var(--nav-height);
 }
 
+/* On desktop the header stacks a dark utility bar above the nav row, both in
+   normal flow. Reserving only --nav-height clamps the header shorter than its
+   content, so the nav overflows and the page's first heading renders behind it.
+   Let the header size to its actual content instead. */
+@media (width >= 900px) {
+  header {
+    height: auto;
+  }
+}
+
 header .header,
 footer .footer {
   visibility: hidden;
