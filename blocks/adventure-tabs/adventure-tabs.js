@@ -15,15 +15,17 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 
 const QUERY_INDEX = `${window.hlx?.codeBasePath || ''}/query-index.json`;
 
-// Tab label → predicate over an item's indexed `activity` value.
+// Tab label → predicate over an item's category text (indexed `activity` when
+// present, else title + description + slug). Ordered so the first match wins in
+// the classifier below.
 const CATEGORIES = [
   { label: 'All', match: () => true },
-  { label: 'Climbing', match: (a) => /climb/i.test(a) },
-  { label: 'Cycling', match: (a) => /cycl|bike|biking/i.test(a) },
-  { label: 'Skiing', match: (a) => /ski/i.test(a) },
-  { label: 'Surfing', match: (a) => /surf/i.test(a) },
-  // Travel groups the social/food/camping experiences the source files there.
-  { label: 'Travel', match: (a) => /social|travel|camp|food|wine|gastronom/i.test(a) },
+  { label: 'Climbing', match: (t) => /climb|bouldering/i.test(t) },
+  { label: 'Cycling', match: (t) => /cycl|bike|biking|mountain bik/i.test(t) },
+  { label: 'Skiing', match: (t) => /ski/i.test(t) },
+  { label: 'Surfing', match: (t) => /surf/i.test(t) },
+  // Travel groups the social/food/wine/camping experiences the source files there.
+  { label: 'Travel', match: (t) => /social|travel|camp|food|wine|beer|brewer|gastronom|tasting/i.test(t) },
 ];
 
 function currentLocale() {
@@ -43,6 +45,16 @@ function titleFor(item) {
   if (t && t.toLowerCase() !== 'og title') return t;
   const slug = item.path.replace(/\/$/, '').split('/').pop() || '';
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Text used to categorise an adventure. Prefer the indexed `activity` field;
+ * fall back to the title + description + path slug so the category tabs still
+ * work if the index has not yet picked up the activity column.
+ */
+function categoryText(item) {
+  if (item.activity) return item.activity;
+  return `${item.title || ''} ${item.description || ''} ${item.path || ''}`;
 }
 
 function buildCard(item) {
@@ -84,7 +96,7 @@ export default async function decorate(block) {
   panels.className = 'adventure-tabs-panels';
 
   CATEGORIES.forEach((cat, idx) => {
-    const items = adventures.filter((it) => cat.match(it.activity || ''));
+    const items = adventures.filter((it) => cat.match(categoryText(it)));
     if (!items.length && cat.label !== 'All') return; // hide empty categories
 
     const id = cat.label.toLowerCase();

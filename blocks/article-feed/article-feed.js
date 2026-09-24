@@ -36,9 +36,11 @@ function readConfig(block) {
   return config;
 }
 
-/** Best-effort locale prefix (/xx/xx) from the current path. */
+/** Best-effort locale prefix (/xx/xx) from the current path. Matches whether or
+ *  not a further path segment follows (so the extensionless locale home /us/en
+ *  resolves to /us/en, not ''). */
 function currentLocale() {
-  const m = window.location.pathname.match(/^(\/[^/]+\/[^/]+)\//);
+  const m = window.location.pathname.match(/^(\/[a-z]{2}\/[a-z]{2})(\/|$)/i);
   return m ? m[1] : '';
 }
 
@@ -78,7 +80,9 @@ function buildCard(item) {
 
   const imageDiv = document.createElement('div');
   imageDiv.className = 'cards-card-image';
-  if (item.image && !item.image.startsWith('/default-meta-image')) {
+  // The index stores the default placeholder as an absolute URL, so match the
+  // filename anywhere in the string (not just a leading path).
+  if (item.image && !item.image.includes('default-meta-image')) {
     const picture = createOptimizedPicture(item.image, title, false, [{ width: '750' }]);
     imageDiv.append(picture);
   }
@@ -114,6 +118,17 @@ export default async function decorate(block) {
 
   const data = await fetchIndex();
 
+  // Paths that are an ancestor of another indexed page are section/listing pages
+  // (e.g. …/magazine/members-only, which has child articles under it), not
+  // articles. The source's rails only show leaf article/adventure pages, so skip
+  // any path that other paths nest beneath.
+  const listingPaths = new Set();
+  data.forEach((item) => {
+    if (!item.path) return;
+    const parent = item.path.replace(/\/[^/]+$/, '');
+    if (parent) listingPaths.add(parent);
+  });
+
   const items = data
     .filter((item) => {
       if (!item.path) return false;
@@ -121,6 +136,8 @@ export default async function decorate(block) {
       if (filter && !item.path.includes(`/${filter}/`)) return false;
       // Exclude the section landing page itself (…/magazine, …/adventures).
       if (filter && new RegExp(`/${filter}$`).test(item.path)) return false;
+      // Exclude nested listing pages (e.g. …/magazine/members-only).
+      if (listingPaths.has(item.path)) return false;
       if (locale && !item.path.startsWith(locale)) return false;
       if (excludeCurrent && item.path === currentPath) return false;
       // Free-text search matches title/description/path.

@@ -43,5 +43,24 @@ export default function transform(hookName, element, payload) {
       el.removeAttribute('data-asset-id');
       el.removeAttribute('onclick');
     });
+
+    // Normalize internal links: the source markup carries a `.html` suffix on
+    // in-content links (e.g. /us/en/adventures.html), but EDS serves only the
+    // extensionless path — the `.html` URL 404s. Strip `.html` from same-site
+    // links so the authored href resolves directly (no runtime rewrite, no dead
+    // link for crawlers). External links and asset links (.pdf, images) are left
+    // untouched.
+    const sourceHosts = ['wknd.site', 'www.wknd.site', 'localhost'];
+    element.querySelectorAll('a[href]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      // Relative path, or absolute URL pointing back at the source site.
+      const isInternal = href.startsWith('/')
+        || sourceHosts.some((h) => href.includes(`//${h}`) || href.includes(`//${h}:`));
+      if (!isInternal) return;
+      // Only rewrite the path portion; keep any query/hash intact.
+      const cleaned = href.replace(/\.html(?=($|[?#]))/, '');
+      if (cleaned !== href) a.setAttribute('href', cleaned);
+    });
   }
 }

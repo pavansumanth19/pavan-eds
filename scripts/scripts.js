@@ -325,6 +325,42 @@ function normalizeInternalLinks(main) {
 }
 
 /**
+ * Home-page rails ("Recent Articles", "Next Adventures") end with a standalone
+ * link to the section landing page ("All Articles" → …/magazine, "All Trips" →
+ * …/adventures). The source renders these as a yellow primary button followed by
+ * a full-width hairline separator. The imported content carries them as a plain
+ * link in a paragraph, so promote each one to a primary button and drop an <hr>
+ * after it. Matches on the bare section-landing href so it is locale-independent
+ * and never touches ordinary in-content links.
+ * @param {Element} main The main element
+ */
+function decorateFeedMoreLinks(main) {
+  const sectionLanding = /^\/[a-z]{2}\/[a-z]{2}\/(magazine|adventures)$/;
+  main.querySelectorAll('.default-content-wrapper p > a[href]:only-child').forEach((a) => {
+    const p = a.parentElement;
+    if (p.textContent.trim() !== a.textContent.trim()) return; // link is the whole paragraph
+    // Only decorate default content, never a link that lives inside a block
+    // (e.g. the carousel's "View Trips" CTA also points at /adventures).
+    if (a.closest('[class][data-block-name], .block')) return;
+    let path;
+    try {
+      const url = new URL(a.getAttribute('href'), window.location.href);
+      if (url.origin !== window.location.origin) return;
+      path = url.pathname.replace(/\.html$/, '');
+    } catch { return; }
+    if (!sectionLanding.test(path)) return;
+
+    // The source button is yellow (accent) with dark text — that is our default
+    // `.button` treatment (accent background), not `.primary` (dark background).
+    p.classList.add('button-wrapper');
+    a.classList.add('button');
+    if (!(p.nextElementSibling && p.nextElementSibling.tagName === 'HR')) {
+      p.after(document.createElement('hr'));
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -335,6 +371,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateFeedMoreLinks(main);
   decorateMagazineArticle(main);
   decorateAdventureDetail(main);
   ensurePageHeading(main);
