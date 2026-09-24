@@ -284,6 +284,16 @@ main img {
   height: auto;
 }
 
+/* Horizontal rule: thin full-width hairline separator, matching the source's
+   section dividers (e.g. below the home-page "All Articles"/"All Trips"
+   buttons). */
+main hr {
+  height: 0;
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid #ebebeb;
+}
+
 .icon {
   display: inline-block;
   height: 24px;
