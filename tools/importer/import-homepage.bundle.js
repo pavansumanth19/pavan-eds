@@ -129,7 +129,7 @@ var CustomImportScript = (() => {
     const rows = [["filter", section]];
     if (locale) rows.push(["locale", locale]);
     const isListing = /\/(magazine|adventures)(\.html)?$/.test(pathname);
-    if (!isListing) rows.push(["limit", "3"]);
+    if (!isListing) rows.push(["limit", "4"]);
     const block = WebImporter.Blocks.createBlock(document2, {
       name: "article-feed",
       cells: rows

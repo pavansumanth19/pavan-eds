@@ -50,9 +50,10 @@ export default function parse(element, { document, params }) {
 
   const rows = [['filter', section]];
   if (locale) rows.push(['locale', locale]);
-  // Home-page rails show a short teaser strip; the listing pages show all.
+  // Home-page rails show a short teaser strip (source shows 4); the listing
+  // pages show all.
   const isListing = /\/(magazine|adventures)(\.html)?$/.test(pathname);
-  if (!isListing) rows.push(['limit', '3']);
+  if (!isListing) rows.push(['limit', '4']);
 
   const block = WebImporter.Blocks.createBlock(document, {
     name: 'article-feed',
