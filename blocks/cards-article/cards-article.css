@@ -25,6 +25,17 @@ main > .section.cards-article-container > .default-content-wrapper h2::after {
   background-color: var(--accent-color);
 }
 
+/* Card description: clamp to a single truncated line so every card is the same
+   height and the grid stays even, matching the source's article/adventure
+   listing cards. */
+.cards-article .cards-card-body p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Card titles: blue link in the body font at 18px, bold. */
 .cards-article .cards-card-body h3 {
   font-family: var(--body-font-family);

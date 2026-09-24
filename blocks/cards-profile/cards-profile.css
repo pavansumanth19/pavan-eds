@@ -120,42 +120,56 @@ main > .section.cards-profile-container {
 }
 
 /* Social link row: authored as a paragraph of inline <a> links (Facebook /
-   Twitter / Instagram). The source renders them as small gray icon glyphs, so
-   hide the text label and show the matching SVG icon as a mask (tinted gray). */
+   Twitter / Instagram). The source renders each as a 48x48 dark square button
+   with a light icon centered inside, so hide the text label and paint the icon
+   as a centered mask over the dark button background. */
 .cards-profile .cards-profile-body p {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
   margin: 12px 0 0;
 }
 
 .cards-profile .cards-profile-body p a:any-link {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 48px;
+  height: 48px;
   overflow: hidden;
   color: transparent;
   font-size: 0;
   text-decoration: none;
-  background-color: #6f6f6f;
+  background-color: var(--text-color);
   transition: background-color 0.2s;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
 }
 
 .cards-profile .cards-profile-body p a:hover {
+  background-color: var(--accent-color);
+}
+
+/* The icon itself is a light glyph centered in the dark button. */
+.cards-profile .cards-profile-body p a::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #ebebeb;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 18px 18px;
+}
+
+.cards-profile .cards-profile-body p a:hover::before {
   background-color: var(--text-color);
 }
 
-.cards-profile .cards-profile-body p a.social-facebook {
+.cards-profile .cards-profile-body p a.social-facebook::before {
   mask-image: url('/icons/facebook.svg');
 }
 
-.cards-profile .cards-profile-body p a.social-twitter {
+.cards-profile .cards-profile-body p a.social-twitter::before {
   mask-image: url('/icons/twitter.svg');
 }
 
-.cards-profile .cards-profile-body p a.social-instagram {
+.cards-profile .cards-profile-body p a.social-instagram::before {
   mask-image: url('/icons/instagram.svg');
 }

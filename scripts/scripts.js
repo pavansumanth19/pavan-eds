@@ -335,6 +335,11 @@ function normalizeInternalLinks(main) {
  * @param {Element} main The main element
  */
 function decorateFeedMoreLinks(main) {
+  // Only run on the real page <main>, never on nav/footer fragments (whose
+  // utility-bar "Sign In"/language links must not be touched). Fragments run
+  // through decorateMain on a detached <main>, so they are not the body's main.
+  if (main !== document.querySelector('body > main')) return;
+
   const sectionLanding = /^\/[a-z]{2}\/[a-z]{2}\/(magazine|adventures)$/;
   main.querySelectorAll('.default-content-wrapper p > a[href]:only-child').forEach((a) => {
     const p = a.parentElement;
@@ -342,9 +347,12 @@ function decorateFeedMoreLinks(main) {
     // Only decorate default content, never a link that lives inside a block
     // (e.g. the carousel's "View Trips" CTA also points at /adventures).
     if (a.closest('[class][data-block-name], .block')) return;
+    const href = a.getAttribute('href') || '';
+    // Ignore in-page/hash and non-path links (e.g. "#sign-in", "#langnav").
+    if (!href.startsWith('/') && !/^https?:\/\//i.test(href)) return;
     let path;
     try {
-      const url = new URL(a.getAttribute('href'), window.location.href);
+      const url = new URL(href, window.location.href);
       if (url.origin !== window.location.origin) return;
       path = url.pathname.replace(/\.html$/, '');
     } catch { return; }
