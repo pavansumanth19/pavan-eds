@@ -1,0 +1,22 @@
+{
+  "variantName": "hero",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "large",
+    "structure": "full-width feature image with overlaid heading and CTA"
+  },
+  "contentPattern": "A single row containing a large image and supporting heading/text/CTA.",
+  "usage": "Page hero used across homepage, content-landing, adventure and magazine pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_64d7a45c1296",
+    "v_9a6067da1d9c",
+    "v_ce80ccd0f1fa",
+    "v_04d141a53172"
+  ]
+}

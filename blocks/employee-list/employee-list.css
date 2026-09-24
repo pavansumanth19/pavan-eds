@@ -1,0 +1,31 @@
+.employee-list {
+  overflow-x: auto;
+}
+
+.employee-list table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.employee-list th,
+.employee-list td {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--light-color);
+  white-space: nowrap;
+}
+
+.employee-list th {
+  font-weight: 700;
+}
+
+.employee-list-load-more {
+  display: block;
+  margin: 24px auto 0;
+}
+
+@media (width >= 600px) {
+  .employee-list {
+    overflow-x: unset;
+  }
+}

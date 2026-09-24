@@ -1,0 +1,19 @@
+{
+  "variantName": "footer",
+  "baseBlock": "footer",
+  "canonicalModel": "configuration",
+  "visualCharacteristics": {
+    "colorScheme": "mixed",
+    "density": "moderate",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "site footer with logo, navigation, social links and legal text"
+  },
+  "contentPattern": "Configuration block driven by the footer fragment.",
+  "usage": "Global site footer.",
+  "options": [],
+  "memberVariantIds": [
+    "footer-global"
+  ]
+}

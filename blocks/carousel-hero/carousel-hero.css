@@ -1,0 +1,140 @@
+/* carousel-hero — full-bleed hero carousel variant.
+   The base carousel layout (flex slides, indicators, nav buttons) lives in
+   carousel.css. EDS only auto-loads the CSS file named after this block, so we
+   import the base layout explicitly; rules below are variant-scoped overrides. */
+@import url('../carousel/carousel.css');
+
+/* Full-bleed: the source hero carousel spans the full viewport width, but the
+   section container caps content at --content-max-width with side padding.
+   Break the wrapper out of that container so the carousel goes edge-to-edge.
+   Selector matches `main > .section > div` specificity so it wins the cascade. */
+main > .section > .carousel-hero-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* Source aligns the content card toward the lower area of the slide,
+   not vertically centered as the base carousel does. Height matches the
+   source hero (~44.4vw ≈ 640px at 1440, capped at 640px). */
+.carousel-hero .carousel-slide {
+  min-height: min(44.4vw, 640px);
+  justify-content: flex-end;
+}
+
+/* Source content card: a wide, solid-white bar sitting flush with the BOTTOM
+   of the slide, overlapping the image (~83% wide, inset ~8.5% from left), with
+   compact vertical spacing — NOT the base carousel's half-width centered box. */
+.carousel-hero .carousel-slide .carousel-slide-content {
+  --slide-content-width: 100%;
+
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 24px 28px 32px;
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+@media (width >= 600px) {
+  .carousel-hero .carousel-slide .carousel-slide-content {
+    /* Source card is a fixed-width bar (~1192px) centered in the slide, not a
+       proportional width — so the side gutters shrink as the viewport narrows
+       (8% at 1440, ~2% at 1240) while the card width stays constant. */
+    --slide-content-width: min(100% - 48px, 1192px);
+
+    width: min(100% - 48px, 1192px);
+    max-width: none;
+    margin: 0 auto;
+
+    /* Side gutters only; tight vertical rhythm from element margins. */
+    padding: 0 28px 28px;
+  }
+}
+
+.carousel-hero .carousel-slide .carousel-slide-content h2 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Match the source's tight rhythm: no inter-element margins (heading's
+   line-height and the button's own padding provide the spacing). */
+.carousel-hero .carousel-slide .carousel-slide-content p {
+  margin: 0;
+}
+
+.carousel-hero .carousel-slide .carousel-slide-content p:last-child {
+  margin-top: 16px;
+}
+
+/* CTA link styled as the WKND yellow button */
+.carousel-hero .carousel-slide-content a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.carousel-hero .carousel-slide-content a:hover {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+
+/* Prev/Next arrows: the base carousel splits them to the far left/right and
+   centers them vertically. The source groups both at the bottom-right on the
+   light strip BELOW the image (dark chevrons need the light background to be
+   visible). Push them just below the image edge, right-aligned. */
+.carousel-hero .carousel-navigation-buttons {
+  inset: auto 24px -34px auto;
+  transform: none;
+  justify-content: flex-end;
+  gap: 16px;
+  width: auto;
+}
+
+/* Small dark chevrons only — no circular border/background around them */
+.carousel-hero .carousel-navigation-buttons button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  transition: opacity 0.2s;
+}
+
+.carousel-hero .carousel-navigation-buttons button:hover,
+.carousel-hero .carousel-navigation-buttons button:focus-visible {
+  background-color: transparent;
+  opacity: 0.6;
+}
+
+.carousel-hero .carousel-navigation-buttons button::after {
+  border-color: var(--text-color);
+}
+
+/* Indicator dots: transparent strip centered below the slide, matching source */
+.carousel-hero .carousel-slide-indicators {
+  padding: 16px 12px;
+  background-color: transparent;
+  gap: 6px 10px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-slide-indicator button {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+}
+
+.carousel-hero .carousel-slide-indicator button:disabled,
+.carousel-hero .carousel-slide-indicator button[aria-current='true'] {
+  background-color: var(--text-color);
+}

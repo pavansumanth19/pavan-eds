@@ -1,0 +1,19 @@
+{
+  "variantName": "accordion",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "stacked expandable question/answer rows"
+  },
+  "contentPattern": "One row per item; first cell is the summary/label, second cell is the expandable body.",
+  "usage": "FAQ accordion on the faq page.",
+  "options": [],
+  "memberVariantIds": [
+    "v_4ecd3661fdd5"
+  ]
+}

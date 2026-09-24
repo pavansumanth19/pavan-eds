@@ -1,0 +1,17 @@
+{
+  "variantName": "cards-profile",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "hasBackgroundImage": false,
+    "hasGrid": true,
+    "imagePattern": "large",
+    "structure": "grid of profile cards with circular photo, name, role and social links"
+  },
+  "contentPattern": "One row per profile; first cell circular photo, remaining cells name, role and a list of social links.",
+  "usage": "Contributor/guide profile grids on the content-landing (about-us) page.",
+  "options": [],
+  "memberVariantIds": []
+}

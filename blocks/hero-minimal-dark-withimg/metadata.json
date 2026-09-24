@@ -1,0 +1,19 @@
+{
+  "variantName": "hero-minimal-dark-withimg",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": true,
+    "imagePattern": "large",
+    "structure": "section heading above a two-up image gallery"
+  },
+  "contentPattern": "First row is a heading; subsequent rows are image cards forming a gallery.",
+  "usage": "Members-only style teaser grid within magazine landing pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_9f1b9f67bda6"
+  ]
+}

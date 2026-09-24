@@ -1,0 +1,161 @@
+/* The import created one cards-profile block per contributor, so each block
+   holds a single card. The source lays contributors out in rows (4-up, then
+   3-up). Make the section itself a flex-wrap row so consecutive card blocks
+   flow into a grid; the full-width default-content headings act as row breaks.
+   Constrain the flex row to the content column (the global rule caps ordinary
+   section children at --content-max-width; because we turn the section itself
+   into the flex container, we must apply that cap here instead). Cards then lay
+   out 4-up within the content column, matching the source proportions. */
+main > .section.cards-profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px 24px;
+  max-width: var(--content-max-width);
+  margin: 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Neutralise the global "main > .section > div" cap/centering/padding on our
+   flex items; the container above now owns that responsibility. */
+.section.cards-profile-container > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.section.cards-profile-container > .default-content-wrapper {
+  flex: 0 0 100%;
+}
+
+/* Section titles ("Our Contributors", "WKND Guides") get the short yellow
+   underline like the source. */
+.section.cards-profile-container > .default-content-wrapper h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.section.cards-profile-container > .default-content-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* Source cards are a fixed ~263px within the ~1150px content column (4-up).
+   Do NOT let them grow, so the 3-up "WKND Guides" row keeps the same card
+   width and aligns to the start, matching the source proportions. */
+.section.cards-profile-container > .cards-profile-wrapper {
+  flex: 0 0 calc(25% - 18px);
+  max-width: calc(25% - 18px);
+}
+
+@media (width >= 900px) {
+  main > .section.cards-profile-container {
+    padding: 0 32px;
+  }
+}
+
+@media (width < 900px) {
+  .section.cards-profile-container > .cards-profile-wrapper {
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+  }
+}
+
+@media (width < 600px) {
+  .section.cards-profile-container > .cards-profile-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.cards-profile > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.cards-profile > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards-profile .cards-profile-image {
+  line-height: 0;
+}
+
+.cards-profile .cards-profile-image img {
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cards-profile .cards-profile-body {
+  margin-top: 16px;
+}
+
+/* Contributor name: source h3 sits tight to the photo (margin-top 0). */
+.cards-profile .cards-profile-body h3 {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+/* Role subtitle: source renders this as compact uppercase body font,
+   not the inherited Asar serif heading. */
+.cards-profile .cards-profile-body h5 {
+  margin: 0 0 4px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+/* Social link row: authored as a paragraph of inline <a> links (Facebook /
+   Twitter / Instagram). The source renders them as small gray icon glyphs, so
+   hide the text label and show the matching SVG icon as a mask (tinted gray). */
+.cards-profile .cards-profile-body p {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 12px 0 0;
+}
+
+.cards-profile .cards-profile-body p a:any-link {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
+  text-decoration: none;
+  background-color: #6f6f6f;
+  transition: background-color 0.2s;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.cards-profile .cards-profile-body p a:hover {
+  background-color: var(--text-color);
+}
+
+.cards-profile .cards-profile-body p a.social-facebook {
+  mask-image: url('/icons/facebook.svg');
+}
+
+.cards-profile .cards-profile-body p a.social-twitter {
+  mask-image: url('/icons/twitter.svg');
+}
+
+.cards-profile .cards-profile-body p a.social-instagram {
+  mask-image: url('/icons/instagram.svg');
+}

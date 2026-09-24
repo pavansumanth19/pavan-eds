@@ -1,0 +1,88 @@
+/* adventure-tabs — dynamic, query-index-driven adventures listing with category
+   tabs. Mirrors the tabs-minimal-dark-withimg visual treatment: a flat uppercase
+   tab row with the selected tab filled dark, above a 4-up card grid. */
+
+.adventure-tabs .adventure-tabs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5ch;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.adventure-tabs .adventure-tabs-tab {
+  flex: 0 0 max-content;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.adventure-tabs .adventure-tabs-tab[aria-selected='true'] {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+.adventure-tabs .adventure-tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.adventure-tabs .adventure-tabs-panel ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (width >= 600px) {
+  .adventure-tabs .adventure-tabs-panel ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .adventure-tabs .adventure-tabs-panel ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.adventure-tabs .adventure-tabs-panel li {
+  display: flex;
+  flex-direction: column;
+}
+
+.adventure-tabs .adventure-tabs-panel li img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Card title: bold black link (source), on its own line above the description. */
+.adventure-tabs .adventure-tabs-panel li a:not(:has(img)) {
+  display: block;
+  margin: 8px 0 6px;
+  color: var(--text-color);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.adventure-tabs .adventure-tabs-panel li a:not(:has(img)):hover {
+  text-decoration: underline;
+}
+
+.adventure-tabs .adventure-tabs-panel li p {
+  margin: 0;
+}

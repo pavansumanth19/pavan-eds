@@ -1,0 +1,19 @@
+{
+  "variantName": "breadcrumbs",
+  "baseBlock": "breadcrumbs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "horizontal list of ancestor links with arrow separators"
+  },
+  "contentPattern": "A column of links ordered from site root to current page; the last item is the current page.",
+  "usage": "Breadcrumb trail on adventure-detail and magazine-article pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_4d46829f22d9"
+  ]
+}

@@ -143,6 +143,167 @@ function decorateButtons(main) {
 }
 
 /**
+ * Magazine article layout: the source renders the story body in a main column
+ * with a right-hand sidebar holding "Share this Story" + related articles.
+ * The imported content places the share heading and its related-links list at
+ * the end of the article's default-content flow; lift them into an <aside> so
+ * CSS can grid them into the sidebar column. Defensive: bails if not found.
+ * @param {Element} main The main element
+ */
+function decorateMagazineArticle(main) {
+  if (!document.body.classList.contains('magazine-article')) return;
+  const wrappers = [...main.querySelectorAll('.default-content-wrapper')];
+  const bodyWrapper = wrappers.find((w) => w.querySelector('h5'));
+  if (!bodyWrapper) return;
+  const shareHeading = [...bodyWrapper.querySelectorAll('h5')]
+    .find((h) => /share this story/i.test(h.textContent));
+  if (!shareHeading) return;
+
+  const aside = document.createElement('aside');
+  aside.className = 'magazine-sidebar';
+  // Move the share heading and everything after it (the related-articles list)
+  // out of the article flow and into the sidebar.
+  let node = shareHeading;
+  while (node) {
+    const next = node.nextElementSibling;
+    aside.append(node);
+    node = next;
+  }
+  const articleSection = bodyWrapper.closest('.section');
+  articleSection.append(aside);
+  // Tag the section so the two-column (article + sidebar) grid layout applies
+  // reliably. Not all articles contain a blockquote (which would add the
+  // `quote-container` class), so we can't rely on that class for scoping.
+  articleSection.classList.add('magazine-article-body');
+
+  // Each related-article link imports as one run of text: "<Title> <Weekday>,
+  // <D Mon YYYY>". Split the trailing date onto its own line so the sidebar can
+  // render the title and date as the source does (title above, gray date below).
+  aside.querySelectorAll('li a').forEach((a) => {
+    if (a.querySelector('.magazine-sidebar-title')) return;
+    const text = a.textContent.trim();
+    const match = text.match(/^(.*?)\s+((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+\d{1,2}\s+\w+\s+\d{4})$/);
+    if (!match) return;
+    const [, title, date] = match;
+    a.textContent = '';
+    const titleEl = document.createElement('span');
+    titleEl.className = 'magazine-sidebar-title';
+    titleEl.textContent = title;
+    const dateEl = document.createElement('span');
+    dateEl.className = 'magazine-sidebar-date';
+    dateEl.textContent = date;
+    a.append(titleEl, dateEl);
+  });
+
+  // The article ends with an author byline card: a small avatar image, the
+  // author name (last h2), a role line, and social links. The source renders
+  // this as a compact card (circular avatar, name/role beside it, social icons).
+  // Group those trailing elements and tag the social links so CSS can show icon
+  // glyphs (matching cards-profile) instead of the plain "Facebook" text.
+  const bodyHeadings = [...bodyWrapper.querySelectorAll('h2')];
+  const authorHeading = bodyHeadings[bodyHeadings.length - 1];
+  if (authorHeading) {
+    const authorCard = document.createElement('div');
+    authorCard.className = 'magazine-author';
+    // The avatar image sits in the paragraph immediately before the name.
+    const avatar = authorHeading.previousElementSibling;
+    if (avatar && avatar.querySelector('picture')) {
+      avatar.classList.add('magazine-author-avatar');
+      authorCard.append(avatar);
+    }
+
+    // Collect the remaining author elements (name, role, social links) so they
+    // can be arranged into a single horizontal row: avatar | name+role | social.
+    const rest = [];
+    let cur = authorHeading;
+    while (cur) {
+      const next = cur.nextElementSibling;
+      rest.push(cur);
+      cur = next;
+    }
+
+    // Name + role stack in an info column; the social links (paragraphs whose
+    // only child is a link) move into a trailing social group.
+    const info = document.createElement('div');
+    info.className = 'magazine-author-info';
+    const social = document.createElement('div');
+    social.className = 'magazine-author-social';
+    rest.forEach((el) => {
+      const link = el.querySelector('a');
+      const isSocialLink = link && el.children.length === 1
+        && el.textContent.trim() === link.textContent.trim();
+      if (isSocialLink) social.append(el);
+      else info.append(el);
+    });
+
+    authorCard.append(info);
+    if (social.children.length) authorCard.append(social);
+    bodyWrapper.append(authorCard);
+
+    // Tag each social link by platform so CSS swaps the text for the icon.
+    social.querySelectorAll('a').forEach((a) => {
+      const hint = `${a.textContent} ${a.getAttribute('href') || ''}`.toLowerCase();
+      if (hint.includes('facebook')) a.classList.add('social-facebook');
+      else if (hint.includes('twitter')) a.classList.add('social-twitter');
+      else if (hint.includes('insta')) a.classList.add('social-instagram');
+      a.setAttribute('aria-label', a.textContent.trim());
+    });
+  }
+}
+
+/**
+ * Adventure detail layout: the source places the metadata block ("Activity /
+ * Adventure Type / …") in a narrow left sidebar with the tabbed content
+ * (Overview / Itinerary / What to Bring) beside it on the right, with the H1
+ * spanning full width above both. Tag the metadata + tabs sections and lift the
+ * H1 so CSS can grid them into that layout. Defensive: bails if not found.
+ * @param {Element} main The main element
+ */
+function decorateAdventureDetail(main) {
+  if (!document.body.classList.contains('adventure-detail')) return;
+  const metaSection = [...main.querySelectorAll('.section')]
+    .find((s) => s.querySelector('.columns'));
+  const tabsSection = [...main.querySelectorAll('.section')]
+    .find((s) => s.querySelector('[class*="tabs"]'));
+  if (!metaSection) return;
+  metaSection.classList.add('adventure-meta');
+  if (tabsSection) tabsSection.classList.add('adventure-tabs');
+
+  // The H1 shares the metadata section; move it into its own full-width section
+  // ahead of the metadata so it spans the whole content width like the source.
+  const h1Wrapper = metaSection.querySelector('.default-content-wrapper');
+  if (h1Wrapper && h1Wrapper.querySelector('h1')) {
+    const titleSection = document.createElement('div');
+    titleSection.className = 'section adventure-title';
+    titleSection.append(h1Wrapper);
+    metaSection.before(titleSection);
+  }
+}
+
+/**
+ * Strips the `.html` extension from internal links. The imported content
+ * carries `.html` on internal hrefs (e.g. /us/en/magazine.html), but EDS serves
+ * extensionless paths, so normalize them to avoid a redirect on click.
+ * @param {Element} main The main element
+ */
+function normalizeInternalLinks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href) return;
+    try {
+      const url = new URL(href, window.location.href);
+      // only touch same-origin links that end in .html
+      if (url.origin === window.location.origin && url.pathname.endsWith('.html')) {
+        url.pathname = url.pathname.replace(/\.html$/, '');
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      }
+    } catch {
+      /* ignore malformed hrefs */
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -153,6 +314,9 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateMagazineArticle(main);
+  decorateAdventureDetail(main);
+  normalizeInternalLinks(main);
 }
 
 /**
@@ -162,6 +326,32 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  // Tag magazine article pages so their template-specific layout (byline,
+  // article + sidebar) can be scoped in CSS without extra authoring metadata.
+  if (window.location.pathname.includes('/magazine/')) {
+    document.body.classList.add('magazine-article');
+  }
+  // Tag the magazine landing/listing page (…/magazine, no trailing segment) so
+  // its section layout (All Articles underline, contained members teasers) can
+  // be scoped in CSS.
+  if (/\/magazine$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('magazine-listing');
+  }
+  // Tag the FAQ page so its two-column layout (FAQ content left, "Need more
+  // help?" right) and heading underline can be scoped in CSS.
+  if (/\/faqs?$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('faq-page');
+  }
+  // Tag the adventures landing/listing page (…/adventures, no trailing segment)
+  // so its section-title underline and tab/card styling can be scoped in CSS.
+  if (/\/adventures$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('adventures-listing');
+  }
+  // Tag adventure detail pages (…/adventures/<slug>) so their two-column layout
+  // (metadata sidebar + tabbed content) and metadata styling can be scoped.
+  if (/\/adventures\/[^/]+$/.test(window.location.pathname.replace(/\.html$/, ''))) {
+    document.body.classList.add('adventure-detail');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);

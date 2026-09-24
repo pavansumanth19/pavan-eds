@@ -1,0 +1,24 @@
+{
+  "variantName": "tabs",
+  "baseBlock": "tabs",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "large",
+    "structure": "tab strip above switchable content panels"
+  },
+  "contentPattern": "One row per tab; first cell is the tab label, the row body is the panel content (heading, text, image, list).",
+  "usage": "Tabbed content used on adventure-detail and adventure-listing pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_ce821482035f",
+    "v_8ab7ece34e9a",
+    "v_8ab7ece34e9a-1",
+    "v_8ab7ece34e9a-2",
+    "v_8ab7ece34e9a-4",
+    "v_e0f5a3e4d7c8"
+  ]
+}

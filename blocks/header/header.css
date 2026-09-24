@@ -1,3 +1,8 @@
+/* header block wrapper */
+.header {
+  width: 100%;
+}
+
 /* header and nav layout */
 header .nav-wrapper {
   background-color: var(--background-color);
@@ -37,7 +42,8 @@ header nav[aria-expanded='true'] {
 
   header nav {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
     gap: 0 32px;
     max-width: 1264px;
     padding: 0 32px;
@@ -139,18 +145,33 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
   }
 }
 
-/* brand */
+/* brand — WKND logo, sized to match the source (~48px tall) */
 header .nav-brand {
   grid-area: brand;
-  flex-basis: 128px;
-  font-size: var(--heading-font-size-s);
-  font-weight: 700;
+  flex-basis: auto;
   line-height: 1;
+}
+
+header .nav-brand a:any-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* The logo renders as an EDS icon (span.icon-wknd-logo > img). Size the icon
+   wrapper to the logo dimensions so the image doesn't overflow the default
+   24px icon box and overlap the nav below it. */
+header nav .nav-brand .icon-wknd-logo {
+  display: inline-flex;
+  width: 128px;
+  height: 48px;
 }
 
 header nav .nav-brand img {
   width: 128px;
-  height: auto;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* sections */
@@ -170,11 +191,27 @@ header nav[aria-expanded='true'] .nav-sections {
 header nav .nav-sections ul {
   list-style: none;
   padding-left: 0;
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs);
 }
 
 header nav .nav-sections ul > li {
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Nav links get a yellow background block on hover/focus, matching the source */
+header nav .nav-sections a:any-link {
+  display: block;
+  padding: 15px 17px;
+  color: var(--text-color);
+  transition: background-color 0.15s;
+}
+
+header nav .nav-sections a:any-link:hover,
+header nav .nav-sections a:any-link:focus {
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
 
 header nav .nav-sections ul > li > ul {
@@ -190,6 +227,11 @@ header nav .nav-sections ul > li > ul > li {
     display: block;
     visibility: visible;
     white-space: nowrap;
+
+    /* Group the nav toward the center-right like the source, before tools.
+       Override the base `flex: 1 1 auto` grow so the auto margin can push it. */
+    flex: 0 0 auto;
+    margin-left: auto;
   }
 
   header nav[aria-expanded='true'] .nav-sections {
@@ -224,8 +266,9 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 0;
     margin: 0;
+    align-items: center;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li {
@@ -266,7 +309,105 @@ header nav .nav-sections ul > li > ul > li {
   }
 }
 
-/* tools */
+/* tools — search rendered as a box with an icon, matching the source */
 header nav .nav-tools {
   grid-area: tools;
+}
+
+/* stylelint-disable no-descending-specificity -- tools/utility are separate subtrees */
+header nav .nav-tools .default-content-wrapper > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 166px;
+  height: 42px;
+  margin: 0;
+  padding: 0 12px;
+  background-color: rgb(235 235 235 / 54%);
+  color: #6b6b6b;
+  font-size: var(--body-font-size-xs);
+}
+
+/* "Search" placeholder label after the icon */
+header nav .nav-tools .default-content-wrapper > p .icon-search::after {
+  content: 'Search';
+  margin-left: 8px;
+  color: #6b6b6b;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+header nav .nav-tools .icon-search {
+  display: inline-flex;
+  align-items: center;
+}
+
+header nav .nav-tools .icon-search img {
+  width: 16px;
+  height: 16px;
+}
+
+/* utility bar — thin dark strip above the header (Sign In / language),
+   matching the source's top strip. Placed after nav rules to keep the
+   cascade order clean. */
+.nav-utility-wrapper {
+  background-color: var(--dark-color);
+  color: #fff;
+  width: 100%;
+}
+
+.nav-utility-wrapper .nav-utility {
+  max-width: 1264px;
+  margin: auto;
+  padding: 8px 32px;
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* The fragment wraps the Sign In / language paragraphs in a
+   .default-content-wrapper; make that the flex row so they sit inline,
+   right-aligned, on one line. */
+.nav-utility-wrapper .nav-utility .default-content-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-utility-wrapper .nav-utility .default-content-wrapper > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.nav-utility-wrapper .nav-utility p {
+  margin: 0;
+}
+/* stylelint-enable no-descending-specificity */
+
+/* stylelint-disable no-descending-specificity -- separate DOM subtree from nav links */
+.nav-utility-wrapper .nav-utility a:any-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-utility-wrapper .nav-utility a:hover {
+  color: var(--accent-color);
+}
+/* stylelint-enable no-descending-specificity */
+
+/* US flag icon before the language selector (matches the source). Inline SVG
+   data URI so there is no extra network request or committed asset. */
+.nav-utility-wrapper .nav-utility a[href="#langnav"]::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14"><rect width="20" height="14" fill="%23b22234"/><g fill="%23fff"><rect y="1.08" width="20" height="1.08"/><rect y="3.23" width="20" height="1.08"/><rect y="5.38" width="20" height="1.08"/><rect y="7.54" width="20" height="1.08"/><rect y="9.69" width="20" height="1.08"/><rect y="11.85" width="20" height="1.08"/></g><rect width="8" height="7.54" fill="%233c3b6e"/></svg>');
+  background-size: cover;
+  background-repeat: no-repeat;
 }

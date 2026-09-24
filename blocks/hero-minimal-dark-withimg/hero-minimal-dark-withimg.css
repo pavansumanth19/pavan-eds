@@ -1,0 +1,21 @@
+.hero-minimal-dark-withimg .hero-minimal-dark-withimg-title {
+  margin-bottom: 24px;
+}
+
+.hero-minimal-dark-withimg .hero-minimal-dark-withimg-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (width >= 600px) {
+  .hero-minimal-dark-withimg .hero-minimal-dark-withimg-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.hero-minimal-dark-withimg .hero-minimal-dark-withimg-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

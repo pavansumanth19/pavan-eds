@@ -1,0 +1,67 @@
+/* FAQ accordion — matches the source: each row is a flat item separated only by
+   a thin bottom rule (no box border, no gaps). The question label uses the body
+   font, small/bold/uppercase in black; the answer panel sits below. */
+
+.accordion details {
+  border: 0;
+  border-bottom: 2px solid var(--light-color);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion details + details {
+  margin-top: 0;
+}
+
+.accordion details p {
+  margin-bottom: 0.8em;
+}
+
+.accordion details summary p {
+  margin: 0;
+}
+
+.accordion details summary {
+  position: relative;
+  padding: 14px 46px 14px 0;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-color);
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s;
+}
+
+.accordion details[open] summary,
+.accordion details summary:focus,
+.accordion details summary:hover {
+  color: var(--link-color);
+}
+
+.accordion details summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion details summary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%) rotate(135deg);
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentcolor;
+  border-width: 2px 2px 0 0;
+  transition: transform 0.2s;
+}
+
+.accordion details[open] summary::after {
+  transform: translateY(-25%) rotate(-45deg);
+}
+
+.accordion details .accordion-item-body {
+  padding: 0 0 14px;
+  font-size: var(--body-font-size-s);
+}

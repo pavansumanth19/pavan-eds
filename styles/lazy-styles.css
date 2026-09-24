@@ -1,1 +1,580 @@
 /* add global styles that can be loaded post LCP here */
+
+/* ===== FAQ page ===== */
+
+/* Two-column layout on desktop: FAQ content (title, intro, accordion) on the
+   left; the "Need more help?" block on the right — matching the source. The
+   section has three wrappers: [intro default-content], [accordion], [need-more
+   default-content]. Grid them so the first two stack in the left column and the
+   third sits in the right column, top-aligned. */
+@media (width >= 900px) {
+  body.faq-page main .section.accordion-container {
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 72px;
+    align-items: start;
+
+    /* The section itself now owns the content width + padding (below); its grid
+       children must fill their cells, so neutralise the global
+       "main > .section > div" cap + auto-centering + padding. */
+    max-width: var(--content-max-width);
+    margin: 40px auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  body.faq-page main .section.accordion-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Left column: intro (title, image, text) on row 1, accordion on row 2. */
+  body.faq-page main .section.accordion-container > .default-content-wrapper:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body.faq-page main .section.accordion-container > .accordion-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* Right column: "Need more help?" pinned to the top of the section, aligned
+     with the H1 (matching the source), spanning both rows. */
+  body.faq-page main .section.accordion-container > .default-content-wrapper:last-child {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+  }
+}
+
+/* Right column ("Need more help?") is separated from the top of its column by a
+   thin rule above the heading, matching the source. */
+body.faq-page main .section.accordion-container > .default-content-wrapper:last-child {
+  padding-top: 20px;
+  border-top: 2px solid var(--light-color);
+}
+
+body.faq-page main .section.accordion-container > .default-content-wrapper:last-child h3 {
+  margin-top: 0;
+}
+
+/* FAQ H1 gets the short yellow underline like the source section titles. */
+body.faq-page main .section.accordion-container > .default-content-wrapper:first-child h1 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.faq-page main .section.accordion-container > .default-content-wrapper:first-child h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* ===== Magazine listing page ===== */
+
+/* Section titles ("All Articles", "Members Only") get the short yellow
+   underline like the source. These headings live in default-content wrappers,
+   not a cards-article-container section, so scope them by the body class. */
+body.magazine-listing main .default-content-wrapper h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.magazine-listing main .default-content-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* The "Members Only" teasers use the hero-banner block, but on this page the
+   source renders them as two contained side-by-side teasers (image + text
+   below) — NOT full-bleed overlay heroes. Contain the section and lay the
+   teasers out 2-up. */
+body.magazine-listing main .section.hero-banner-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Undo the full-bleed break-out that hero-banner.css applies to the wrapper. */
+body.magazine-listing main .section.hero-banner-container > .hero-banner-wrapper {
+  max-width: calc(50% - 12px);
+  flex: 1 1 calc(50% - 12px);
+  padding: 0;
+}
+
+body.magazine-listing .hero-banner {
+  display: block;
+  min-height: 0;
+}
+
+/* The base block absolutely-positions the image wrapper (inset:0) so it fills a
+   full-bleed hero — that makes it escape the flow here and overflow the footer.
+   Put it back in normal flow so the teaser sizes to image + text. */
+body.magazine-listing .hero-banner .hero-banner-image {
+  position: static;
+  inset: auto;
+  height: auto;
+}
+
+body.magazine-listing .hero-banner .hero-banner-image,
+body.magazine-listing .hero-banner .hero-banner-image > div,
+body.magazine-listing .hero-banner .hero-banner-image picture {
+  height: auto;
+}
+
+body.magazine-listing .hero-banner .hero-banner-image img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Text sits below the image (not overlaid) with no white card background. */
+body.magazine-listing .hero-banner .hero-banner-content {
+  position: static;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 12px 0 0;
+  background-color: transparent;
+}
+
+@media (width < 600px) {
+  body.magazine-listing .hero-banner-wrapper {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Magazine article template: the "By {author}" byline (h4) uses the body font,
+   small, bold and uppercased in the source — not the default Asar heading. */
+body.magazine-article main .default-content-wrapper h4 {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 21px 0;
+}
+
+/* Article-body section headings (h2) get a short yellow underline below them,
+   matching the source. Scoped to direct children of the content wrapper so the
+   nested author byline card's name heading (inside .magazine-author) is
+   excluded. */
+body.magazine-article main .default-content-wrapper > h2 {
+  margin-bottom: 14px;
+}
+
+body.magazine-article main .default-content-wrapper > h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* Two-column article + sidebar on desktop (source layout). The article body
+   flows in the left column; the lifted .magazine-sidebar sits on the right.
+   Scoped to .magazine-article-body (tagged in JS) rather than .quote-container,
+   since not every article contains a blockquote. */
+@media (width >= 900px) {
+  body.magazine-article main .section.magazine-article-body {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  body.magazine-article main .section.magazine-article-body > .breadcrumbs-wrapper {
+    grid-column: 1 / -1;
+
+    /* Neutralise the global "main > .section > div" cap + auto-centering so the
+       breadcrumb sits at the left edge, aligned with the article title. Keep the
+       horizontal padding so it lines up with the title/body, not flush at 0. */
+    max-width: none;
+    margin: 0;
+    padding: 0 32px;
+  }
+
+  body.magazine-article main .section.magazine-article-body > .magazine-sidebar {
+    grid-column: 2;
+    grid-row: 2 / 100;
+    align-self: start;
+  }
+}
+
+/* Sidebar styling: "SHARE THIS STORY" heading + related-articles list. Matches
+   the source — a compact uppercase body-font heading, then each related article
+   as a block with its title above a small gray date, highlighted yellow on
+   hover. */
+body.magazine-article .magazine-sidebar h5 {
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.magazine-article .magazine-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.magazine-article .magazine-sidebar ul li {
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
+}
+
+body.magazine-article .magazine-sidebar ul a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: background-color 0.2s;
+}
+
+body.magazine-article .magazine-sidebar ul a:hover {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+body.magazine-article .magazine-sidebar .magazine-sidebar-title {
+  display: block;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+body.magazine-article .magazine-sidebar .magazine-sidebar-date {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #696969;
+}
+
+/* Author byline card at the end of the article: separated by a top rule and
+   laid out as a single horizontal row — avatar | name+role | social icons — all
+   vertically centered, matching the source. */
+body.magazine-article .magazine-author {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--light-color);
+}
+
+body.magazine-article .magazine-author .magazine-author-avatar {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+body.magazine-article .magazine-author .magazine-author-avatar picture,
+body.magazine-article .magazine-author .magazine-author-avatar img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Name + role info column takes the remaining space; social group is pushed to
+   the far right. */
+body.magazine-article .magazine-author .magazine-author-info {
+  flex: 1 1 auto;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.magazine-article .magazine-author h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* The role line ("Skater, Writer") is compact body text, not a heading. */
+body.magazine-article .magazine-author h2 + p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #696969;
+}
+
+body.magazine-article .magazine-author .magazine-author-social {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+body.magazine-article .magazine-author .magazine-author-social p {
+  margin: 0;
+}
+
+/* Each social link is a 48x48 dark square button; the platform icon shows as a
+   light-tinted mask centered inside (source: #202020 button, #ebebeb glyph). */
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: var(--text-color);
+  transition: background-color 0.2s;
+}
+
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-']::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: var(--light-color);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+body.magazine-article .magazine-author .magazine-author-social a[class*='social-']:hover {
+  background-color: #000;
+}
+
+body.magazine-article .magazine-author .magazine-author-social a.social-facebook::before {
+  mask-image: url('/icons/facebook.svg');
+}
+
+body.magazine-article .magazine-author .magazine-author-social a.social-twitter::before {
+  mask-image: url('/icons/twitter.svg');
+}
+
+body.magazine-article .magazine-author .magazine-author-social a.social-instagram::before {
+  mask-image: url('/icons/instagram.svg');
+}
+
+/* ===== Adventures listing page ===== */
+
+/* The "Current Adventures" section title gets the short yellow underline like
+   the source. Its section directly precedes the tabs-container section; the
+   intro heading ("Experience the world with us") has no underline in the source,
+   so scope this to the section immediately before the tabs. */
+body.adventures-listing main .section:has(+ .section.tabs-minimal-dark-withimg-container) h2 {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+body.adventures-listing main .section:has(+ .section.tabs-minimal-dark-withimg-container) h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 84px;
+  height: 3px;
+  background-color: var(--accent-color);
+}
+
+/* Card titles in the tabs block render as regular-weight black links. Scope to
+   the adventures listing so other uses are unaffected. */
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventures-listing .tabs-minimal-dark-withimg-panel li a {
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+/* ===== Adventure detail page ===== */
+
+/* The adventure title gets the short yellow underline below it, matching the
+   source. */
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventure-detail .adventure-title h1 {
+  margin-bottom: 14px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventure-detail .adventure-title h1::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* Two-column layout on desktop: metadata sidebar (left) + tabbed content
+   (right), with the title spanning full width above — matching the source. */
+@media (width >= 900px) {
+  body.adventure-detail main {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    column-gap: 48px;
+    align-items: start;
+
+    /* Constrain the grid to the content width and centre it, so its columns
+       share the same left edge as the full-width sections (title, breadcrumb).
+       Each section wrapper below has its own cap/padding neutralised so the
+       columns line up flush with the title instead of drifting left. */
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  body.adventure-detail main > .section > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.adventure-detail main > .section.breadcrumbs-container,
+  body.adventure-detail main > .section.carousel-container,
+  body.adventure-detail main > .section.adventure-title {
+    grid-column: 1 / -1;
+  }
+
+  body.adventure-detail main > .section.adventure-meta {
+    grid-column: 1;
+  }
+
+  body.adventure-detail main > .section.adventure-tabs {
+    grid-column: 2;
+  }
+}
+
+/* Metadata block: the source stacks each row as a small gray uppercase label
+   above a bold black uppercase value (not a side-by-side 2-column table). */
+body.adventure-detail .adventure-meta .columns > div {
+  display: block;
+  margin-bottom: 22px;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div {
+  flex: none;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div:first-child p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #696969;
+}
+
+body.adventure-detail .adventure-meta .columns > div > div:last-child p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* Trip-details tabs use the dark-pill theme from the source: flat uppercase tab
+   labels, the selected one filled dark, sitting above a thin-ruled panel.
+   Scoped to the adventure detail page so the base tabs block is unchanged
+   elsewhere. */
+body.adventure-detail .adventure-tabs .tabs-list {
+  gap: 4px;
+  border-bottom: 1px solid var(--light-color);
+}
+
+body.adventure-detail .adventure-tabs .tabs-list button {
+  border: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+body.adventure-detail .adventure-tabs .tabs-list button[aria-selected='true'] {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  border-bottom: 0;
+}
+
+body.adventure-detail .adventure-tabs .tabs-panel {
+  margin-top: 0;
+  padding: 24px 0 0;
+  border: 0;
+}
+
+body.adventure-detail .adventure-tabs .tabs-panel img {
+  margin: 16px 0;
+}
+
+/* Carousel controls on adventure detail heroes: match the source — small dots
+   centered below the image (no gray strip) with the prev/next chevrons pulled
+   out of the image overlay to sit at the right of that same row. */
+body.adventure-detail .carousel .carousel-slide-indicators {
+  padding: 12px 0 0;
+  gap: 0 14px;
+  background-color: transparent;
+}
+
+body.adventure-detail .carousel .carousel-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  background-color: #afafaf;
+}
+
+body.adventure-detail .carousel .carousel-slide-indicator button:disabled,
+body.adventure-detail .carousel .carousel-slide-indicator button:hover,
+body.adventure-detail .carousel .carousel-slide-indicator button:focus-visible {
+  background-color: rgb(0 0 0 / 80%);
+}
+
+/* Pull the nav arrows out of the absolute image overlay and dock them at the
+   right edge, below the image, as small dark chevrons (not translucent circles
+   over the photo). */
+body.adventure-detail .carousel .carousel-navigation-buttons {
+  position: absolute;
+  inset: auto 0 0 auto;
+  top: auto;
+  left: auto;
+  right: 0;
+  transform: translateY(calc(100% + 4px));
+  width: auto;
+  gap: 12px;
+  z-index: 2;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.adventure-detail .carousel .carousel-navigation-buttons button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+body.adventure-detail .carousel .carousel-navigation-buttons button:hover,
+body.adventure-detail .carousel .carousel-navigation-buttons button:focus-visible {
+  background-color: transparent;
+}
+
+body.adventure-detail .carousel .carousel-navigation-buttons button::after {
+  border-color: var(--text-color);
+}
+
+/* The container needs room below the image for the docked arrows + dots. */
+body.adventure-detail .carousel .carousel-slides-container {
+  margin-bottom: 8px;
+}

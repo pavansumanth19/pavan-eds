@@ -1,0 +1,107 @@
+/* hero-banner — full-bleed banner: an edge-to-edge image with a wide, centered
+   opaque-white content card overlapping the lower portion of the image.
+   Mirrors the treatment used by carousel-hero so the homepage "Climbing New
+   Zealand" banner and the adventures/FAQ intro render identically. */
+
+/* Full-bleed: the section container caps content at --content-max-width with
+   side padding. Break the wrapper out so the image spans the full viewport.
+   Selector matches `main > .section > div` specificity so it wins the cascade. */
+main > .section > .hero-banner-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* Block is the positioning context. Stack rows and pin the card to the bottom
+   so it sits flush with the bottom edge of the image (source: card bottom ==
+   image bottom at 1440px). Height matches the source hero (~44.4vw ≈ 640px at
+   1440, capped at 640px). */
+.hero-banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: min(44.4vw, 640px);
+}
+
+/* Image fills the whole block, edge to edge, object-fit cover. */
+.hero-banner .hero-banner-image {
+  position: absolute;
+  inset: 0;
+  line-height: 0;
+}
+
+.hero-banner .hero-banner-image,
+.hero-banner .hero-banner-image > div,
+.hero-banner .hero-banner-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-banner .hero-banner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content card: a wide, solid-white bar centered over the lower part of the
+   image. On mobile it spans full width; from 600px up it becomes a fixed-width
+   bar (~1192px) centered with shrinking side gutters. */
+.hero-banner .hero-banner-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 24px 28px 28px;
+  background-color: #fff;
+  color: var(--text-color);
+}
+
+@media (width >= 600px) {
+  .hero-banner .hero-banner-content {
+    width: min(100% - 48px, 1192px);
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 28px 28px;
+  }
+}
+
+.hero-banner .hero-banner-content h2 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Tight rhythm: the heading's line-height and the button's own padding provide
+   spacing; body paragraph carries no default margins. */
+.hero-banner .hero-banner-content p {
+  margin: 0;
+}
+
+/* Only the CTA paragraph gets top spacing; the body paragraph stays flush
+   under the heading (adventures/FAQ intro has no CTA). */
+.hero-banner .hero-banner-content p:has(a) {
+  margin-top: 16px;
+}
+
+/* CTA link styled as the WKND yellow button (present on the homepage banner,
+   absent on the adventures/FAQ intro). */
+.hero-banner .hero-banner-content a:any-link {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hero-banner .hero-banner-content a:hover {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}

@@ -1,0 +1,22 @@
+{
+  "variantName": "carousel",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "large",
+    "structure": "full-width image slides with prev/next controls and indicators"
+  },
+  "contentPattern": "One row per slide; first cell image, remaining cells slide content (heading, text, CTA).",
+  "usage": "Full-bleed hero/image carousel used on homepage and adventure-detail pages.",
+  "options": [],
+  "memberVariantIds": [
+    "v_85f1e746e380",
+    "v_85f1e746e380-1",
+    "v_85f1e746e380-2",
+    "v_85f1e746e380-3"
+  ]
+}

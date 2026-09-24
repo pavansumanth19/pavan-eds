@@ -1,0 +1,84 @@
+/* columns-featured — grey featured-article promo card variant.
+   The base columns layout lives in columns.css. EDS only auto-loads the CSS
+   file named after this block, so we import the base layout explicitly; rules
+   below are variant-scoped overrides. */
+@import url('../columns/columns.css');
+
+
+.columns-featured {
+  background-color: transparent;
+}
+
+.columns-featured > div {
+  /* Stretch so the gray text panel matches the image height (source). */
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Text column ~38% / image column ~62%, matching the source split */
+.columns-featured > div > div {
+  padding: 0;
+}
+
+/* Text column sits on a light-gray panel in the source (#ebebeb) */
+.columns-featured > div > div:not(.columns-img-col) {
+  background-color: #ebebeb;
+}
+
+/* Image column has no padding and its image fills the column */
+.columns-featured > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.columns-featured h2 {
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  margin: 18px 0;
+}
+
+/* "Featured Article" eyebrow label is bold in the source */
+.columns-featured > div > div > p:first-child {
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+@media (width >= 900px) {
+  /* Source places the image on the LEFT and the text on the RIGHT. */
+  .columns-featured > div > .columns-img-col {
+    order: 0;
+    flex: 0 0 62%;
+  }
+
+  .columns-featured > div > div:not(.columns-img-col) {
+    order: 1;
+    flex: 0 0 38%;
+
+    /* include the padding within the 38% basis so text + image cols never
+       exceed 100% and force a horizontal scrollbar at narrow desktop widths */
+    box-sizing: border-box;
+    padding: 63px 36px 36px;
+  }
+}
+
+/* CTA link styled as the WKND yellow button */
+.columns-featured a:any-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.columns-featured a:hover {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+

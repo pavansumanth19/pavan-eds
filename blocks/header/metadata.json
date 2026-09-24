@@ -1,0 +1,19 @@
+{
+  "variantName": "header",
+  "baseBlock": "header",
+  "canonicalModel": "configuration",
+  "visualCharacteristics": {
+    "colorScheme": "mixed",
+    "density": "moderate",
+    "hasBackgroundImage": false,
+    "hasGrid": false,
+    "imagePattern": "noimg",
+    "structure": "site header with logo, navigation and utility links"
+  },
+  "contentPattern": "Configuration block driven by the nav fragment.",
+  "usage": "Global site header.",
+  "options": [],
+  "memberVariantIds": [
+    "header-global"
+  ]
+}
