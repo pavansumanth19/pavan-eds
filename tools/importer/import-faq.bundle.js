@@ -92,6 +92,8 @@ var CustomImportScript = (() => {
         // global header XF (logo, nav, search, language nav, sign-in)
         "footer.cmp-experiencefragment--footer",
         // global footer XF (logo, nav, social, copyright)
+        ".cmp-contentfragment__title",
+        // hidden CF title that duplicates the page H1 (magazine articles)
         "meta",
         // stray empty <meta> tags left inside cmp-image wrappers
         "noscript",
@@ -104,6 +106,15 @@ var CustomImportScript = (() => {
         el.removeAttribute("data-cmp-src");
         el.removeAttribute("data-asset-id");
         el.removeAttribute("onclick");
+      });
+      const sourceHosts = ["wknd.site", "www.wknd.site", "localhost"];
+      element.querySelectorAll("a[href]").forEach((a) => {
+        const href = a.getAttribute("href");
+        if (!href) return;
+        const isInternal = href.startsWith("/") || sourceHosts.some((h) => href.includes(`//${h}`) || href.includes(`//${h}:`));
+        if (!isInternal) return;
+        const cleaned = href.replace(/\.html(?=($|[?#]))/, "");
+        if (cleaned !== href) a.setAttribute("href", cleaned);
       });
     }
   }
