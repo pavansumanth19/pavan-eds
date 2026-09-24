@@ -281,6 +281,27 @@ function decorateAdventureDetail(main) {
 }
 
 /**
+ * Ensures the page has exactly one top-level heading. Some templates (e.g. the
+ * home page, whose hero is a carousel) render only h2s, which fails the
+ * accessibility "page contains a level-one heading" audit and weakens SEO.
+ * If no h1 exists, add a visually-hidden one from the document title so the
+ * visual design is unchanged. Defensive: no-op when an h1 is already present.
+ * @param {Element} main The main element
+ */
+function ensurePageHeading(main) {
+  // Only apply to the page's own <main> in the live document. Nav/footer
+  // fragments also run through decorateMain (on a detached <main>) but must not
+  // get their own h1, which would create multiple h1s on the page.
+  if (main !== document.querySelector('body > main')) return;
+  if (main.querySelector('h1')) return;
+  const title = (document.title || '').split(/[|–-]/)[0].trim() || 'WKND';
+  const h1 = document.createElement('h1');
+  h1.className = 'sr-only';
+  h1.textContent = title;
+  main.prepend(h1);
+}
+
+/**
  * Strips the `.html` extension from internal links. The imported content
  * carries `.html` on internal hrefs (e.g. /us/en/magazine.html), but EDS serves
  * extensionless paths, so normalize them to avoid a redirect on click.
@@ -316,6 +337,7 @@ export function decorateMain(main) {
   decorateButtons(main);
   decorateMagazineArticle(main);
   decorateAdventureDetail(main);
+  ensurePageHeading(main);
   normalizeInternalLinks(main);
 }
 
