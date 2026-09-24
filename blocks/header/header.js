@@ -108,6 +108,94 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
+// Locales available in this site tree, shown in the language/country switcher.
+const LOCALES = [
+  { code: '/us/en', label: 'EN-US' },
+  { code: '/ca/en', label: 'EN-CA' },
+  { code: '/de/de', label: 'DE-DE' },
+  { code: '/ch/de', label: 'DE-CH' },
+  { code: '/fr/fr', label: 'FR-FR' },
+  { code: '/es/es', label: 'ES-ES' },
+  { code: '/it/it', label: 'IT-IT' },
+];
+
+/** Current locale prefix (/xx/xx) from the path, defaulting to /us/en. */
+function currentLocalePrefix() {
+  const m = window.location.pathname.match(/^(\/[a-z]{2}\/[a-z]{2})(\/|$)/);
+  return m ? m[1] : '/us/en';
+}
+
+/**
+ * Turn the static "EN-US" language link into a working country/language switcher.
+ * Selecting a locale navigates to the same page path under that locale.
+ */
+function decorateLanguageNav(scope) {
+  const link = scope.querySelector('a[href="#langnav"], a[href*="langnav" i]');
+  if (!link) return;
+
+  const prefix = currentLocalePrefix();
+  const rest = window.location.pathname.replace(/\.html$/, '').slice(prefix.length); // path after locale
+  const current = LOCALES.find((l) => l.code === prefix) || LOCALES[0];
+
+  const details = document.createElement('details');
+  details.className = 'nav-langnav';
+  const summary = document.createElement('summary');
+  summary.textContent = current.label;
+  summary.setAttribute('aria-label', `Change language, current ${current.label}`);
+  const list = document.createElement('ul');
+  LOCALES.forEach((loc) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `${loc.code}${rest}`;
+    a.textContent = loc.label;
+    if (loc.code === prefix) a.setAttribute('aria-current', 'true');
+    li.append(a);
+    list.append(li);
+  });
+  details.append(summary, list);
+
+  // Close the dropdown when clicking outside.
+  document.addEventListener('click', (e) => {
+    if (!details.contains(e.target)) details.removeAttribute('open');
+  });
+
+  const target = link.closest('p') || link;
+  target.replaceWith(details);
+}
+
+/**
+ * Replace the static `:search:` icon with a working search box. Submitting
+ * navigates to the magazine listing with a `?q=` query the listing can read;
+ * pressing the icon toggles the input.
+ */
+function decorateSearch(scope) {
+  const iconSpan = scope.querySelector('.icon-search, span.icon[class*="search"]');
+  const host = iconSpan ? iconSpan.closest('p') : scope.querySelector('.default-content-wrapper > p');
+  if (!host) return;
+
+  const form = document.createElement('form');
+  form.className = 'nav-search';
+  form.setAttribute('role', 'search');
+  form.action = `${currentLocalePrefix()}/magazine`;
+  form.method = 'get';
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.name = 'q';
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
+
+  const button = document.createElement('button');
+  button.type = 'submit';
+  button.className = 'nav-search-button';
+  button.setAttribute('aria-label', 'Search');
+  // Preserve the existing search icon inside the button if present.
+  if (iconSpan) button.append(iconSpan.cloneNode(true));
+
+  form.append(input, button);
+  host.replaceWith(form);
+}
+
 /**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
@@ -135,10 +223,16 @@ export default async function decorate(block) {
   const navUtility = nav.querySelector('.nav-utility');
   let utilityWrapper;
   if (navUtility) {
+    // Make the language link a working country/language switcher.
+    decorateLanguageNav(navUtility);
     utilityWrapper = document.createElement('div');
     utilityWrapper.className = 'nav-utility-wrapper';
     utilityWrapper.append(navUtility);
   }
+
+  // Make the search icon (in the nav-tools section) a working search box.
+  const navTools = nav.querySelector('.nav-tools');
+  if (navTools) decorateSearch(navTools);
 
   const navBrand = nav.querySelector('.nav-brand');
   const brandLink = navBrand.querySelector('.button');

@@ -109,6 +109,8 @@ export default async function decorate(block) {
   const limit = config.limit ? parseInt(config.limit, 10) : 0;
   const excludeCurrent = (config.exclude || '').toLowerCase() === 'current';
   const currentPath = window.location.pathname.replace(/\.html$/, '');
+  // Optional free-text search from the header search box (?q=…).
+  const query = (new URLSearchParams(window.location.search).get('q') || '').trim().toLowerCase();
 
   const data = await fetchIndex();
 
@@ -121,6 +123,11 @@ export default async function decorate(block) {
       if (filter && new RegExp(`/${filter}$`).test(item.path)) return false;
       if (locale && !item.path.startsWith(locale)) return false;
       if (excludeCurrent && item.path === currentPath) return false;
+      // Free-text search matches title/description/path.
+      if (query) {
+        const hay = `${item.title || ''} ${item.description || ''} ${item.path}`.toLowerCase();
+        if (!hay.includes(query)) return false;
+      }
       return true;
     })
     .sort(byNewest);

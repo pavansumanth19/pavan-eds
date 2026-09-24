@@ -398,9 +398,9 @@ header nav .nav-tools .icon-search img {
 }
 /* stylelint-enable no-descending-specificity */
 
-/* US flag icon before the language selector (matches the source). Inline SVG
-   data URI so there is no extra network request or committed asset. */
-.nav-utility-wrapper .nav-utility a[href="#langnav"]::before {
+/* Flag icon before the language selector summary (matches the source). Inline
+   SVG data URI so there is no extra network request or committed asset. */
+.nav-utility-wrapper .nav-utility .nav-langnav > summary::before {
   content: '';
   display: inline-block;
   width: 20px;
@@ -410,4 +410,101 @@ header nav .nav-tools .icon-search img {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14"><rect width="20" height="14" fill="%23b22234"/><g fill="%23fff"><rect y="1.08" width="20" height="1.08"/><rect y="3.23" width="20" height="1.08"/><rect y="5.38" width="20" height="1.08"/><rect y="7.54" width="20" height="1.08"/><rect y="9.69" width="20" height="1.08"/><rect y="11.85" width="20" height="1.08"/></g><rect width="8" height="7.54" fill="%233c3b6e"/></svg>');
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+/* ===== Language / country switcher (dynamic) ===== */
+/* stylelint-disable no-descending-specificity */
+.nav-utility-wrapper .nav-utility .nav-langnav {
+  position: relative;
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav > summary {
+  list-style: none;
+  cursor: pointer;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav > summary::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 8px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav[open] > summary::after {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav ul {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  min-width: 120px;
+  background-color: var(--text-color);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 30%);
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav ul li a {
+  display: block;
+  padding: 8px 16px;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-utility-wrapper .nav-utility .nav-langnav ul li a:hover,
+.nav-utility-wrapper .nav-utility .nav-langnav ul li a[aria-current='true'] {
+  color: var(--accent-color);
+}
+/* stylelint-enable no-descending-specificity */
+
+/* ===== Header search box (dynamic) ===== */
+header nav .nav-tools .nav-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+header nav .nav-tools .nav-search input[type='search'] {
+  width: 0;
+  min-width: 0;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  opacity: 0;
+  transition: width 0.25s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+/* Reveal the input on focus-within or hover of the search control. */
+header nav .nav-tools .nav-search:hover input[type='search'],
+header nav .nav-tools .nav-search:focus-within input[type='search'] {
+  width: 160px;
+  opacity: 1;
+  border-bottom-color: var(--text-color);
+}
+
+header nav .nav-tools .nav-search .nav-search-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
